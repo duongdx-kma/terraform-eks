@@ -40,3 +40,4 @@ terraform.rc
 *.pem
 *.cert
 *.crt
+*.pem.pub
