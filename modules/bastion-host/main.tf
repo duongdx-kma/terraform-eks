@@ -23,7 +23,7 @@ resource "null_resource" "copy_ec2_keys" {
 
   # File Provisioner: passing key from local to server
   provisioner "file" {
-    source      = var.path_to_private_key
+    source      = var.path_to_public_node_group_key
     destination = "/tmp/eks-terraform-key.pem"
   }
 

@@ -18,6 +18,10 @@ variable "path_to_private_key" {
   type = string
 }
 
+variable "path_to_public_node_group_key" {
+  type = string
+}
+
 variable "vpc_security_group_ids" {
   type = list(string)
 }
