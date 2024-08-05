@@ -42,11 +42,21 @@ resource "aws_eks_cluster" "eks_cluster" {
 }
 
 
+data "aws_cloudwatch_log_group" "existing_log_group" {
+  name = "/aws/eks/study-dev-eks-cluster/cluster"
+}
+
 resource "aws_cloudwatch_log_group" "eks_cluster_cloudwatch_log_group" {
   # The log group name format is /aws/eks/<cluster-name>/cluster
   # Reference: https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html
+  count = data.aws_cloudwatch_log_group.existing_log_group.id == "" ? 1 : 0
   name              = "/aws/eks/${var.cluster_name}/cluster"
   retention_in_days = 7
 
+  lifecycle {
+    ignore_changes = [
+      name
+    ]
+  }
   # ... potentially other configuration ...
 }
