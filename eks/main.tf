@@ -1,5 +1,5 @@
 module "vpc" {
-  source                                 = "./modules/vpc"
+  source                                 = "../modules/vpc"
   vpc_name                               = "terraform-eks-${var.environment}"
   aws_region                             = var.aws_region
   environment                            = var.environment
@@ -24,7 +24,7 @@ module "vpc" {
 }
 
 module "security-groups" {
-  source = "./modules/security-groups"
+  source = "../modules/security-groups"
   vpc_id = module.vpc.vpc_id
   bastion_host_ingress = [{
     from_port   = 22
@@ -52,7 +52,7 @@ module "security-groups" {
 # }
 
 module "eks" {
-  source                            = "./modules/eks-cluster"
+  source                            = "../modules/eks-cluster"
   cluster_version                   = "1.30"
   cluster_name                      = local.eks_cluster_name
   node_group_vpc_public_subnet_ids  = module.vpc.public_subnets
