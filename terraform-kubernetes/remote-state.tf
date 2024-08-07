@@ -1,8 +1,18 @@
-# Terraform Remote State Data source
+# # Terraform Remote State Data source
+# data "terraform_remote_state" "eks" {
+#   backend = "local"
+#   config = {
+#     path = "../eks/terraform.tfstate"
+#   }
+# }
+
+# Terraform Remote State Datasource - Remote Backend AWS S3
 data "terraform_remote_state" "eks" {
-  backend = "local"
+  backend = "s3"
   config = {
-    path = "../eks/terraform.tfstate"
+    bucket = "duongdx-terraform-state"
+    key    = "eks-cluster/dev/terraform.tfstate"
+    region = "ap-southeast-1"
   }
 }
 

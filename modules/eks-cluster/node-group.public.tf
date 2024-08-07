@@ -18,7 +18,7 @@ resource "aws_eks_node_group" "eks_node_group_pubic" {
 
   remote_access {
     ec2_ssh_key = aws_key_pair.node_group_key.key_name
-    source_security_group_ids = ["0.0.0.0/0"] # Any IP address can access the node-group instances.
+    # source_security_group_ids = ["security_group_id"] # Any IP address can access the node-group instances.
   }
 
   # The maximum number of unavailable instances when the node group is being updated/upgraded.

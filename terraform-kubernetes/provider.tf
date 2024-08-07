@@ -12,6 +12,15 @@ terraform {
       version = ">= 2.31.0"
     }
   }
+
+  backend "s3" {
+    bucket = "duongdx-terraform-state"
+    key    = "eks-cluster/terraform-kubernetes/terraform.tfstate"
+    region = "ap-southeast-1"
+
+    # DynamoDB for state locking
+    dynamodb_table = "terraform-kubernetes"
+  }
 }
 # Provider Block
 provider "aws" {
