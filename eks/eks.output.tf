@@ -84,3 +84,14 @@ output "node_group_public_version" {
 #   description = "Private Node Group Kubernetes Version"
 #   value       = aws_eks_node_group.eks_node_group_private.version
 # }
+
+
+output "aws_iam_openid_connect_provider_arn" {
+  value = module.eks.aws_iam_openid_connect_provider_arn
+}
+
+# Output: AWS IAM Open ID Connect Provider
+output "aws_iam_openid_connect_provider_extract_from_arn" {
+  description = "AWS IAM Open ID Connect Provider extract from ARN"
+  value = module.eks.aws_iam_openid_connect_provider_extract_from_arn
+}

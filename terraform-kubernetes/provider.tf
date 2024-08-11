@@ -19,7 +19,7 @@ terraform {
     region = "ap-southeast-1"
 
     # DynamoDB for state locking
-    dynamodb_table = "terraform-kubernetes"
+    # dynamodb_table = "terraform-kubernetes"
   }
 }
 # Provider Block
