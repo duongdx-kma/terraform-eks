@@ -20,7 +20,7 @@ data "aws_iam_policy_document" "ebs_csi_assume_role" {
   }
 }
 
-resource "aws_iam_role" "ebs_csi_role" {
+resource "aws_iam_role" "ebs_csi_iam_role" {
   name               = "${var.module_name}-role"
   assume_role_policy = data.aws_iam_policy_document.ebs_csi_assume_role.json
 
@@ -32,7 +32,12 @@ resource "aws_iam_role" "ebs_csi_role" {
   )
 }
 
-resource "aws_iam_role_policy_attachment" "ebs_csi_role_policy_attach" {
-  role       = aws_iam_role.ebs_csi_role.name
-  policy_arn = aws_iam_policy.eks_ebs_csi_policy.arn
+resource "aws_iam_role_policy_attachment" "ebs_csi_iam_role_policy_attach" {
+  role       = aws_iam_role.ebs_csi_iam_role.name
+  policy_arn = aws_iam_policy.eks_ebs_csi_iam_policy.arn
+}
+
+output "ebs_csi_iam_role_arn" {
+  description = "EBS CSI IAM Role ARN"
+  value = aws_iam_role.ebs_csi_iam_role.arn
 }

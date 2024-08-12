@@ -1,4 +1,4 @@
-resource "aws_iam_policy" "eks_ebs_csi_policy" {
+resource "aws_iam_policy" "eks_ebs_csi_iam_policy" {
   name        = "eks_ebs_csi_policy"
   path        = "/"
   description = "EBS CSI IAM Policy"
@@ -9,5 +9,5 @@ resource "aws_iam_policy" "eks_ebs_csi_policy" {
 }
 
 output "ebs_csi_iam_policy_arn" {
-  value = aws_iam_policy.eks_ebs_csi_policy.arn
+  value = aws_iam_policy.eks_ebs_csi_iam_policy.arn
 }
