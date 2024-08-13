@@ -15,7 +15,7 @@ data "aws_iam_policy_document" "ebs_csi_assume_role" {
     condition {
       test     = "StringEquals"
       variable = "${var.aws_iam_openid_connect_provider_extract_from_arn}:sub"
-      values   = ["system:serviceaccount:${var.eks_ebs_csi_namespace}:${var.ebs_csi_service_account_name}"]
+      values   = ["system:serviceaccount:${var.eks_ebs_csi_namespace}:${var.eks_ebs_csi_service_account_name}"]
     }
   }
 }
