@@ -11,6 +11,21 @@ terraform {
       source = "hashicorp/kubernetes"
       version = ">= 2.31.0"
     }
+
+    # required helm provider
+    helm = {
+      source = "hashicorp/helm"
+      # version = "2.14.1"
+      version = "~> 2.14"
+    }
+
+
+    # required http provider
+    http = {
+      source = "hashicorp/http"
+      # version = "3.4.4"
+      version = "~> 3.4"
+    }
   }
 
   backend "s3" {
@@ -21,6 +36,7 @@ terraform {
     # DynamoDB for state locking
     # dynamodb_table = "terraform-kubernetes"
   }
+
 }
 # Provider Block
 provider "aws" {
