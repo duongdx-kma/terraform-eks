@@ -9,7 +9,6 @@ variable "aws_iam_openid_connect_provider_extract_from_arn" {
   type = string
 }
 
-
 variable eks_ebs_csi_namespace {
   description = "The EBS CSI (container storage interface) namespace"
   type = string
