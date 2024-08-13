@@ -1,0 +1,13 @@
+image:
+  repository: 602401143452.dkr.ecr.ap-southeast-1.amazonaws.com/eks/aws-ebs-csi-driver
+  # Overrides the image tag whose default is v{{ .Chart.AppVersion }}
+  tag: ""
+  pullPolicy: IfNotPresent
+
+controller:
+  serviceAccount:
+    # A service account will be created for you if set to true. Set to false if you want to use your own.
+    create: true
+    name: ebs-csi-controller-sa
+    annotations:
+      eks.amazonaws.com/role-arn: arn:aws:iam::240993297305:role/eks_ebs_csi-role
