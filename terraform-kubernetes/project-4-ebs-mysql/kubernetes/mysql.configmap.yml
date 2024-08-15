@@ -11,3 +11,21 @@ data:
       name VARCHAR(255) NOT NULL,
       email VARCHAR(255) NOT NULL
     );
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-cluster-config
+  labels:
+    app: mysql
+data:
+  primary.cnf: |
+    # Apply this config only on the primary.
+    [mysqld]
+    log-bin    
+  replica.cnf: |
+    # Apply this config only on replicas.
+    [mysqld]
+    super-read-only
