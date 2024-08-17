@@ -17,9 +17,10 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: mysql-cluster-config
+  name: mysql
   labels:
     app: mysql
+    app.kubernetes.io/name: mysql
 data:
   primary.cnf: |
     # Apply this config only on the primary.
