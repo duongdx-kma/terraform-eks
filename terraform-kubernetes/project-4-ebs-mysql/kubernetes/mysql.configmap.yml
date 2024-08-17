@@ -25,7 +25,7 @@ data:
   primary.cnf: |
     # Apply this config only on the primary.
     [mysqld]
-    log-bin    
+    log-bin
   replica.cnf: |
     # Apply this config only on replicas.
     [mysqld]

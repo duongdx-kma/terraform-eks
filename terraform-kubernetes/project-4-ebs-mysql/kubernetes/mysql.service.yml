@@ -15,7 +15,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql-normal-service
+  name: mysql # check mysql.statefulset.yml field serviceName
   labels:
     app: mysql
 spec:
