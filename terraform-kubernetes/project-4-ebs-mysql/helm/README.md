@@ -5,9 +5,6 @@ helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo update
 helm pull bitnami/mysql --untar
 ```
-C:\Users\kunch\Downloads\mysql
-C:\Users\kunch\OneDrive\Study\DevOps\Kubernetes\Templates\my_manifests\statefulset\python_todo_app\kubernetes\02\mysql
-
 - Modify PVC size, enable replication, reduce resources etc
 - Add init db initdbScripts(https://docs.bitnami.com/kubernetes/infrastructure/mysql/configuration/customize-new-instance/)
 ```
@@ -21,7 +18,7 @@ initdbScripts:
 ```
 - Install the Helm chart
 ```
-vikram.a.kunchala$ helm install mysql mysql/
+duongdx $ helm install mysql bitnami/mysql --values values.yml
 NAME: mysql
 LAST DEPLOYED: 2022
 NAMESPACE: default

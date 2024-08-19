@@ -1,8 +1,8 @@
 global:
   imageRegistry: ""
   imagePullSecrets: []
-  defaultStorageClass: ""
-  storageClass: ""
+  defaultStorageClass: "longhorn-storage-delete"
+  storageClass: "longhorn-storage-delete"
   compatibility:
     openshift:
       adaptSecurityContext: auto
@@ -83,101 +83,39 @@ primary:
       - ReadWriteOnce
     size: 500Mi
   persistentVolumeClaimRetentionPolicy:
-    ## @param primary.persistentVolumeClaimRetentionPolicy.enabled Enable Persistent volume retention policy for Primary StatefulSet
-    ##
     enabled: false
-    ## @param primary.persistentVolumeClaimRetentionPolicy.whenScaled Volume retention behavior when the replica count of the StatefulSet is reduced
-    ##
     whenScaled: Retain
-    ## @param primary.persistentVolumeClaimRetentionPolicy.whenDeleted Volume retention behavior that applies when the StatefulSet is deleted
-    ##
     whenDeleted: Retain
-  ## @param primary.extraVolumes Optionally specify extra list of additional volumes to the MySQL Primary pod(s)
-  ##
   extraVolumes: []
-  ## @param primary.extraVolumeMounts Optionally specify extra list of additional volumeMounts for the MySQL Primary container(s)
-  ##
   extraVolumeMounts: []
-  ## @param primary.initContainers Add additional init containers for the MySQL Primary pod(s)
-  ##
   initContainers: []
-  ## @param primary.sidecars Add additional sidecar containers for the MySQL Primary pod(s)
-  ##
   sidecars: []
-  ## MySQL Primary Service parameters
-  ##
   service:
-    ## @param primary.service.type MySQL Primary K8s service type
-    ##
     type: ClusterIP
-    ## @param primary.service.ports.mysql MySQL Primary K8s service port
-    ## @param primary.service.ports.mysqlx MySQL Primary K8s service mysqlx port
-    ##
     ports:
       mysql: 3306
       mysqlx: 33060
-    ## @param primary.service.nodePorts.mysql MySQL Primary K8s service node port
-    ## @param primary.service.nodePorts.mysqlx MySQL Primary K8s service node port mysqlx
-    ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport
-    ##
     nodePorts:
       mysql: ""
       mysqlx: ""
-    ## @param primary.service.clusterIP MySQL Primary K8s service clusterIP IP
-    ## e.g:
-    ## clusterIP: None
-    ##
     clusterIP: ""
-    ## @param primary.service.loadBalancerIP MySQL Primary loadBalancerIP if service type is `LoadBalancer`
-    ## Set the LoadBalancer service type to internal only
-    ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer
-    ##
     loadBalancerIP: ""
-    ## @param primary.service.externalTrafficPolicy Enable client source IP preservation
-    ## ref https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip
-    ##
     externalTrafficPolicy: Cluster
     loadBalancerSourceRanges: []
-    ## @param primary.service.extraPorts Extra ports to expose (normally used with the `sidecar` value)
-    ##
     extraPorts: []
-    ## @param primary.service.annotations Additional custom annotations for MySQL primary service
-    ##
     annotations: {}
-    ## @param primary.service.sessionAffinity Session Affinity for Kubernetes service, can be "None" or "ClientIP"
-    ## If "ClientIP", consecutive client requests will be directed to the same Pod
-    ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#virtual-ips-and-service-proxies
-    ##
     sessionAffinity: None
-    ## @param primary.service.sessionAffinityConfig Additional settings for the sessionAffinity
-    ## sessionAffinityConfig:
-    ##   clientIP:
-    ##     timeoutSeconds: 300
-    ##
     sessionAffinityConfig: {}
-    ## Headless service properties
-    ##
     headless:
-      ## @param primary.service.headless.annotations Additional custom annotations for headless MySQL primary service.
-      ##
       annotations: {}
-  ## MySQL primary Pod Disruption Budget configuration
-  ## ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/
-  ##
   pdb:
-    ## @param primary.pdb.create Enable/disable a Pod Disruption Budget creation for MySQL primary pods
-    ##
     create: true
-    ## @param primary.pdb.minAvailable Minimum number/percentage of MySQL primary pods that should remain scheduled
-    ##
     minAvailable: ""
-    ## @param primary.pdb.maxUnavailable Maximum number/percentage of MySQL primary pods that may be made unavailable. Defaults to `1` if both `primary.pdb.minAvailable` and `primary.pdb.maxUnavailable` are empty.
-    ##
     maxUnavailable: ""
-  ## @param primary.podLabels MySQL Primary pod label. If labels are same as commonLabels , this will take precedence
-  ##
   podLabels: {}
 
 secondary:
   name: secondary
   replicaCount: 3
+  persistence:
+    size: 500Mi
