@@ -1,3 +1,9 @@
+# Terraform EKS - EBS CSI
+
+![alt text](images/eks-ebs-csi.png.png)
+
+
+
 # Mysql Statefulset structure
 
 ![alt text](images/structure.png)
