@@ -1,0 +1,51 @@
+apiVersion: v1
+items:
+- apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: longhorn
+      meta.helm.sh/release-namespace: longhorn-system
+      # type of authentication
+      nginx.ingress.kubernetes.io/auth-type: basic
+      # prevent the controller from redirecting (308) to HTTPS
+      nginx.ingress.kubernetes.io/ssl-redirect: 'false'
+      # name of the secret that contains the user/password definitions
+      # $ USER=foo; PASSWORD=bar; echo "${USER}:$(openssl passwd -stdin -apr1 <<< ${PASSWORD})" >> auth
+      # $ cat auth
+      # foo:$apr1$FnyKCYKb$6IP2C45fZxMcoLwkOwf7k0
+      # $ kubectl -n longhorn-system create secret generic basic-auth --from-file=auth
+      ##
+      nginx.ingress.kubernetes.io/auth-secret: basic-auth
+      # message to display with an appropriate context why the authentication is required
+      nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required '
+      # custom max body size for file uploading like backing image uploading
+      nginx.ingress.kubernetes.io/proxy-body-size: 10000m
+    generation: 1
+    labels:
+      app: longhorn-ingress
+      app.kubernetes.io/instance: longhorn
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: longhorn
+      app.kubernetes.io/version: v1.6.1
+      helm.sh/chart: longhorn-1.6.1
+    name: longhorn-ingress
+    namespace: longhorn-system
+  spec:
+    ingressClassName: longhorn-storage-ingress
+    rules:
+    - host: longhorn.ui.duongdx.com
+      http:
+        paths:
+        - backend:
+            service:
+              name: longhorn-frontend
+              port:
+                number: 80
+          path: /
+          pathType: ImplementationSpecific
+  status:
+    loadBalancer: {}
+kind: List
+metadata:
+  resourceVersion: ""
