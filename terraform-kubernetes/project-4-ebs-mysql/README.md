@@ -1,6 +1,10 @@
 # Terraform EKS - EBS CSI
 
-![alt text](images/eks-ebs-csi.png.png)
+## I. AWS EBS CSI Driver
+![alt text](images/eks-ebs-csi.png)
+
+## II. EKS Storage with EBS CSI Driver - Demo
+![alt text](images/eks-ebs-csi-demo.png)
 
 
 
