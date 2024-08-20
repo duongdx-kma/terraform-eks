@@ -1,7 +1,7 @@
 # Install `aws-ebs-csi-driver` using `Terraform helm provider`
 
 ### Step 1. Provision infrastructure:
-```
+```powershell
 # Terraform Init
 terraform init
 
@@ -20,7 +20,7 @@ terraform state list
 
 ### Step 2. checking `aws-ebs-csi-driver`
 
-```
+```powershell
 # Describe EBS CSI Deployment
 kubectl -n kube-system get deploy
 kubectl -n kube-system describe deploy ebs-csi-controller
@@ -39,7 +39,7 @@ Observation: ebs-csi-controller Deployment
 
 ### Step 3. Verify Container Logs in EBS CSI Controller Pod
 
-```
+```powershell
 # Verify EBS CSI Controller Pod logs
 kubectl -n kube-system get pods
 kubectl -n kube-system logs -f ebs-csi-controller-56dfd4fccc-7fgbr
@@ -71,7 +71,7 @@ kubectl -n kube-system logs -f ebs-csi-controller-56dfd4fccc-7fgbr csi-resizer
 ```
 
 ### Step 4. Verify EBS CSI Node Daemonset and Pods
-```
+```powershell
 # Verify EBS CSI Node Daemonset
 kubectl -n kube-system get daemonset
 kubectl -n kube-system get ds
@@ -96,7 +96,7 @@ Observation:
 ```
 
 ### Step 5: Verify EBS CSI Kubernetes Service Accounts
-```
+```powershell
 # List EBS CSI  Kubernetes Service Accounts
 kubectl -n kube-system get sa 
 Observation:

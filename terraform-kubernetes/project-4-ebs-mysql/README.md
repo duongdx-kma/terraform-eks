@@ -1,3 +1,13 @@
+# Terraform EKS - EBS CSI
+
+## I. AWS EBS CSI Driver
+![alt text](images/eks-ebs-csi.png)
+
+## II. EKS Storage with EBS CSI Driver - Demo
+![alt text](images/eks-ebs-csi-demo.png)
+
+
+
 # Mysql Statefulset structure
 
 ![alt text](images/structure.png)
