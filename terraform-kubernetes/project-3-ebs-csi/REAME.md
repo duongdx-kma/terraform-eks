@@ -45,17 +45,17 @@ kubectl -n kube-system get pods
 kubectl -n kube-system logs -f ebs-csi-controller-56dfd4fccc-7fgbr
 
 # Error we got when checking EBS CSI Controller pod logs
-Kalyans-MacBook-Pro:02-ebs-terraform-manifests kdaida$ kubectl -n kube-system logs -f ebs-csi-controller-56dfd4fccc-7fgbr
+kubectl -n kube-system logs -f ebs-csi-controller-56dfd4fccc-7fgbr
 error: a container name must be specified for pod ebs-csi-controller-56dfd4fccc-7fgbr, choose one of: [ebs-plugin csi-provisioner csi-attacher csi-resizer liveness-probe]
 Kalyans-MacBook-Pro:02-ebs-terraform-manifests kdaida$ 
 
 # Verify logs of liveness-probe container in EBS CSI Controller Pod
 kubectl -n <NAMESPACE> logs -f <POD-NAME> <CONTAINER-NAME>
-kubectl -n kube-system logs -f liveness-probe 
+kubectl -n kube-system logs -f liveness-probe
 
 # Verify logs of ebs-plugin container in EBS CSI Controller Pod
 kubectl -n <NAMESPACE> logs -f <POD-NAME> <CONTAINER-NAME>
-kubectl -n kube-system logs -f ebs-csi-controller-56dfd4fccc-7fgbr ebs-plugin 
+kubectl -n kube-system logs -f ebs-csi-controller-56dfd4fccc-7fgbr ebs-plugin
 
 # Verify logs of csi-provisioner container in EBS CSI Controller Pod
 kubectl -n <NAMESPACE> logs -f <POD-NAME> <CONTAINER-NAME>
