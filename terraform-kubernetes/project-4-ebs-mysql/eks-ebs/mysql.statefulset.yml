@@ -36,12 +36,12 @@ spec:
             cp /mnt/config-map/replica.cnf /mnt/conf.d/
           fi
         volumeMounts:
+        # Volume mounting: mysql conf -> mount to "emptyDir"
         - name: conf
           mountPath: /mnt/conf.d
+        # Volume mounting: mysql config -> mount "mysql ConfigMap"
         - name: config-map
           mountPath: /mnt/config-map
-        # - name: user-management-db-volume
-        #   mountPath: /docker-entrypoint-initdb.d
       - name: clone-mysql
         image: gcr.io/google-samples/xtrabackup:1.0
         command:
@@ -63,9 +63,12 @@ spec:
           # Prepare the backup.
           xtrabackup --prepare --target-dir=/var/lib/mysql
         volumeMounts:
-        - name: data
+        # Volume mounting: mysql data -> mount to "PVC"
+        - name: mysql-data
           mountPath: /var/lib/mysql
           subPath: mysql
+
+        # Volume mounting: mysql config -> mount "emptyDir"
         - name: conf
           mountPath: /etc/mysql/conf.d
       containers:
@@ -78,11 +81,16 @@ spec:
         - name: mysql
           containerPort: 3306
         volumeMounts:
-        - name: data
+        # Volume mounting: mysql data -> mount to "PVC"
+        - name: mysql-data
           mountPath: /var/lib/mysql
           subPath: mysql
+
+        # Volume mounting: mysql conf -> mount to "emptyDir"
         - name: conf
           mountPath: /etc/mysql/conf.d
+
+        # Volume mounting: mysql initdb -> mount to "user-management-db-script ConfigMap"
         - name: user-management-db-volume
           mountPath: /docker-entrypoint-initdb.d
         resources:
@@ -102,7 +110,7 @@ spec:
             command:
               - /bin/sh
               - -c
-              - "mysql -h 127.0.0.1 -p${MYSQL_ROOT_PASSWORD} -e 'SELECT 1'"
+              - "mysql -h 127.0.0.1 -u root -p${MYSQL_ROOT_PASSWORD} -e 'SELECT 1'"
           initialDelaySeconds: 5
           periodSeconds: 2
           timeoutSeconds: 1
@@ -159,11 +167,16 @@ spec:
           exec ncat --listen --keep-open --send-only --max-conns=1 3307 -c \
             "xtrabackup --backup --slave-info --stream=xbstream --host=127.0.0.1 --user=root --password=$MYSQL_ROOT_PASSWORD"
         volumeMounts:
-        - name: data
+        # Volume mounting: mysql data -> mount to PVC
+        - name: mysql-data
           mountPath: /var/lib/mysql
           subPath: mysql
+
+        # Volume mounting: mysql conf -> mount to emptyDir
         - name: conf
           mountPath: /etc/mysql/conf.d
+
+        # Volume mounting: mysql initdb -> mount to user-management-db-script ConfigMap
         - name: user-management-db-volume
           mountPath: /docker-entrypoint-initdb.d
         resources:
@@ -181,7 +194,7 @@ spec:
           name: user-management-db-script
   volumeClaimTemplates:
   - metadata:
-      name: data
+      name: mysql-data
     spec:
       storageClassName: "ebs-gp2-storage-class" # if null it will using default storage class
       accessModes: ["ReadWriteOnce"]
