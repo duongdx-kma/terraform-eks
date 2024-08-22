@@ -1,0 +1,26 @@
+service:
+  ui:
+    type: "ClusterIP"
+  manager:
+    type: ClusterIP
+
+defaultSettings:
+  defaultReplicaCount: 2
+  defaultDataPath: /data/longhorn-storage/
+  backupstorePollInterval: 500
+  nodeDownPodDeletionPolicy: do-nothing
+
+persistence:
+  defaultClassReplicaCount: 2
+  
+ingress:
+  # -- Setting that allows Longhorn to generate ingress records for the Longhorn UI service.
+  enabled: true
+
+  # -- IngressClass resource that contains ingress configuration, including the name of the Ingress controller.
+  # ingressClassName can replace the kubernetes.io/ingress.class annotation used in earlier Kubernetes releases.
+  ingressClassName: longhorn-storage-ingress
+  host: longhorn.ui.duongdx.com
+
+#kubectl create namespace storage
+# namespaceOverride: "storage"
