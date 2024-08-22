@@ -27,3 +27,7 @@ module "eks_ebs_csi" {
   aws_iam_openid_connect_provider_arn              = data.terraform_remote_state.eks.outputs.aws_iam_openid_connect_provider_arn
   aws_iam_openid_connect_provider_extract_from_arn = data.terraform_remote_state.eks.outputs.aws_iam_openid_connect_provider_extract_from_arn
 }
+
+module "mysql_stateful_app" {
+  source = "./project-4-ebs-mysql/eks-ebs-terraform"
+}

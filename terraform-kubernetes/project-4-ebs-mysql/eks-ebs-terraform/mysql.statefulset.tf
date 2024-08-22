@@ -1,15 +1,11 @@
-resource "kubernetes_stateful_set_v1" "prometheus" {
+resource "kubernetes_stateful_set_v1" "mysql" {
   metadata {
-    annotations = {
-      SomeAnnotation = "foobar"
-    }
+    name = "mysql"
 
     labels = {
       app                      = "mysql"
       "app.kubernetes.io/name" = "mysql"
     }
-
-    name = "mysql"
   }
 
   spec {
