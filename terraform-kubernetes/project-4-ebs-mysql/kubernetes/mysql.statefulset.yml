@@ -1,64 +1,3 @@
-# apiVersion: apps/v1
-# kind: StatefulSet
-# metadata:
-#   labels:
-#     app: mysql
-#   name: mysql-set
-# spec:
-#   replicas: 2
-#   selector:
-#     matchLabels:
-#       app: mysql
-#   serviceName: "mysql"
-#   template:
-#     metadata:
-#       labels:
-#         app: mysql
-#     spec:
-#       terminationGracePeriodSeconds: 10
-#       initContainers:
-#       - name: init-mysql
-#         image: mysql:8.0
-#         command:
-#         - /bin/sh
-#         - -c
-#         - |
-#           if [ "$(hostname)" == "mysql-0" ]; then
-#             echo "Initializing primary..."
-#             mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "SET GLOBAL server_id=1; CREATE USER 'repl'@'%' IDENTIFIED BY 'Aa123456@'; GRANT REPLICATION SLAVE ON *.* TO 'repl'@'%';"
-#           else
-#             echo "Initializing replica..."
-#             mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "CHANGE MASTER TO MASTER_HOST='mysql-0.mysql-write', MASTER_USER='repl', MASTER_PASSWORD='Aa123456@', MASTER_AUTO_POSITION=1; START SLAVE;"
-#           fi
-#       containers:
-#         - image: mysql:8.0
-#           name: mysql
-#           ports:
-#           - containerPort: 3306
-#           envFrom:
-#             - secretRef:
-#                 name: mysql-secret
-#           volumeMounts:
-#             - mountPath: /var/lib/mysql
-#               name: mysql-persistent-storage # same name
-#             - mountPath: /docker-entrypoint-initdb.d
-#               name: user-management-db-volume
-#       volumes:
-#         - name: user-management-db-volume
-#           configMap:
-#             name: user-management-db-script
-
-#   volumeClaimTemplates:
-#     - metadata:
-#         name: mysql-persistent-storage # same name
-#       spec:
-#         accessModes: ["ReadWriteOnce"]
-#         storageClassName: "mysql-persistent-storage"
-#         volumeMode: Filesystem
-#         resources:
-#           requests:
-#             storage: 1Gi
-
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -160,14 +99,18 @@ spec:
             memory: 500Mi
         livenessProbe:
           exec:
-            command: ["mysqladmin", "ping", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
+            # k exec -it mysql-0 -- bin/bash -c 'mysqladmin ping -u root -p${MYSQL_ROOT_PASSWORD}'
+            command:
+              - /bin/sh
+              - -c
+              - "mysqladmin ping -u root -p${MYSQL_ROOT_PASSWORD}"
           initialDelaySeconds: 30
           periodSeconds: 10
           timeoutSeconds: 5
         readinessProbe:
           exec:
             # Check we can execute queries over TCP (skip-networking is off).
-            # k exec -it mysql-0 -- bin/bash -c 'mysql -u -p${MYSQL_ROOT_PASSWORD} -e "SELECT 1"'
+            # k exec -it mysql-0 -- bin/bash -c 'mysql -h 127.0.0.1 -u root -p${MYSQL_ROOT_PASSWORD} -e "SELECT 1"'
             command:
               - /bin/sh
               - -c

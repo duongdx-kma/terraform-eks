@@ -99,14 +99,18 @@ spec:
             memory: 500Mi
         livenessProbe:
           exec:
-            command: ["mysqladmin", "ping", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
+            # k exec -it mysql-0 -- bin/bash -c 'mysqladmin ping -u root -p${MYSQL_ROOT_PASSWORD}'
+            command:
+              - /bin/sh
+              - -c
+              - "mysqladmin ping -u root -p${MYSQL_ROOT_PASSWORD}"
           initialDelaySeconds: 30
           periodSeconds: 10
           timeoutSeconds: 5
         readinessProbe:
           exec:
             # Check we can execute queries over TCP (skip-networking is off).
-            # k exec -it mysql-0 -- bin/bash -c 'mysql -u -p${MYSQL_ROOT_PASSWORD} -e "SELECT 1"'
+            # k exec -it mysql-0 -- bin/bash -c 'mysql -h 127.0.0.1 -u root -p${MYSQL_ROOT_PASSWORD} -e "SELECT 1"'
             command:
               - /bin/sh
               - -c
