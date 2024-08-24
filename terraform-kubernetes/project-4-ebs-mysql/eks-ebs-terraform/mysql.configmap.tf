@@ -9,7 +9,6 @@ resource "kubernetes_config_map_v1" "config_map" {
   }
 }
 
-
 resource "kubernetes_config_map" "mysql" {
   metadata {
     name = "mysql"

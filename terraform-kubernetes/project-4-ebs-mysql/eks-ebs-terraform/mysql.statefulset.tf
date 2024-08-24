@@ -41,7 +41,7 @@ resource "kubernetes_stateful_set_v1" "mysql" {
           command = [
             "bash",
             "-c",
-            <<EOT
+            <<-EOT
               set -ex
               # Generate mysql server-id from pod ordinal index.
               [[ $HOSTNAME =~ -([0-9]+)$ ]] || exit 1
@@ -80,7 +80,7 @@ resource "kubernetes_stateful_set_v1" "mysql" {
           command = [
             "bash",
             "-c",
-            <<EOT
+            <<-EOT
               set -ex
               # Skip the clone if data already exists.
               [[ -d /var/lib/mysql/mysql ]] && exit 0
@@ -167,7 +167,11 @@ resource "kubernetes_stateful_set_v1" "mysql" {
           # Liveness probes do not wait for readiness probes to succeed
           liveness_probe {
             exec {
-              command = ["mysqladmin", "ping", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
+              command = [
+                "/bin/sh",
+                "-c",
+                "mysqladmin ping -u root -p${MYSQL_ROOT_PASSWORD}"
+              ]
             }
 
             initial_delay_seconds = 30
@@ -218,7 +222,7 @@ resource "kubernetes_stateful_set_v1" "mysql" {
           command = [
             "bash",
             "-c",
-            <<EOT
+            <<-EOT
               set -ex
               cd /var/lib/mysql
 

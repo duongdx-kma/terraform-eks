@@ -1,4 +1,4 @@
-resource "kubernetes_service" "mysql_headless_service" {
+resource "kubernetes_service_v1" "mysql_headless_service" {
   metadata {
     name = "mysql-headless-service"
 
@@ -20,7 +20,7 @@ resource "kubernetes_service" "mysql_headless_service" {
   }
 }
 
-resource "kubernetes_service" "mysql" {
+resource "kubernetes_service_v1" "mysql" {
   metadata {
     name = "mysql"
 
