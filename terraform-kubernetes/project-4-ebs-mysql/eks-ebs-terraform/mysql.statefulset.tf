@@ -53,12 +53,12 @@ resource "kubernetes_stateful_set_v1" "mysql" {
           ]
 
           volume_mount {
-            name      = "container-init-volume"
+            name       = "container-init-volume"
             mount_path = "/mnt/scripts"
           }
 
           volume_mount {
-            name      = "writable-scripts"
+            name       = "writable-scripts"
             mount_path = "/mnt/writable-scripts"
           }
         }
@@ -87,7 +87,7 @@ resource "kubernetes_stateful_set_v1" "mysql" {
           }
 
           volume_mount {
-            name      = "writable-scripts"
+            name       = "writable-scripts"
             mount_path = "/mnt/writable-scripts"
           }
         }
@@ -118,7 +118,7 @@ resource "kubernetes_stateful_set_v1" "mysql" {
           }
 
           volume_mount {
-            name      = "writable-scripts"
+            name       = "writable-scripts"
             mount_path = "/mnt/writable-scripts"
           }
         }
@@ -269,7 +269,7 @@ resource "kubernetes_stateful_set_v1" "mysql" {
           }
 
           volume_mount {
-            name      = "writable-scripts"
+            name       = "writable-scripts"
             mount_path = "/mnt/writable-scripts"
           }
         }
@@ -313,7 +313,6 @@ resource "kubernetes_stateful_set_v1" "mysql" {
       }
     }
 
-
     # config update strategy
     update_strategy {
       type = "RollingUpdate"
@@ -326,6 +325,10 @@ resource "kubernetes_stateful_set_v1" "mysql" {
     volume_claim_template {
       metadata {
         name = "mysql-data"
+        labels = {
+          "app"                    = "mysql"
+          "app.kubernetes.io/name" = "mysql"
+        }
       }
 
       spec {
@@ -340,10 +343,9 @@ resource "kubernetes_stateful_set_v1" "mysql" {
       }
     }
 
-
     persistent_volume_claim_retention_policy {
-      when_deleted = "Delete"
-      when_scaled  = "Delete"
+      when_deleted = "Retain"
+      when_scaled  = "Retain"
     }
   }
 }
