@@ -1,5 +1,5 @@
 
-resource "kubernetes_config_map" "flask_webapp_config" {
+resource "kubernetes_config_map_v1" "flask_webapp_config" {
   metadata {
     name = "flask-webapp-configmap"
     labels = {
@@ -9,7 +9,7 @@ resource "kubernetes_config_map" "flask_webapp_config" {
 
   data = {
     # app env
-    APP_PORT = "5000"
-    APP_ENV  = "dev"
+    APP_PORT = var.app_port
+    APP_ENV  = var.app_env
   }
 }

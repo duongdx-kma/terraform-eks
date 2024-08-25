@@ -1,17 +1,16 @@
-resource "kubernetes_service" "flask_webapp_node_port_service" {
+resource "kubernetes_service_v1" "flask_webapp_alb_service" {
   metadata {
-    name = "webserver-node-port-service"
+    name = "flask-webapp-alb-service"
   }
   spec {
     selector = {
       app = kubernetes_deployment_v1.flask_webapp.spec.0.selector.0.match_labels.app
     }
-    # session_affinity = "ClientIP"
+
     port {
       name        = "http"
-      port        = 80
-      target_port = 5000
-      node_port   = 32100
+      port        = var.flask_webapp_service_port
+      target_port = var.app_port
     }
 
     type = "LoadBalancer"

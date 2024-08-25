@@ -8,14 +8,16 @@ resource "kubernetes_service_v1" "mysql_headless_service" {
   }
   spec {
     selector = {
-      app = kubernetes_stateful_set_v1.mysql.spec.0.selector.0.match_labels.app
+      # app = kubernetes_stateful_set_v1.mysql.spec.0.selector.0.match_labels.app
+      app = "mysql"
     }
 
     port {
-      port        = 3306
-      target_port = 3306
+      port        = var.db_port
+      target_port = var.db_port
     }
-    type       = "ClientIP"
+
+    type       = "ClusterIP"
     cluster_ip = "None" # Headless service
   }
 }
@@ -30,14 +32,15 @@ resource "kubernetes_service_v1" "mysql" {
   }
   spec {
     selector = {
-      app = kubernetes_stateful_set_v1.mysql.spec.0.selector.0.match_labels.app
+      # app = kubernetes_stateful_set_v1.mysql.spec.0.selector.0.match_labels.app
+      app = "mysql"
     }
 
     port {
-      port        = 3306
-      target_port = 3306
+      port        = var.db_port
+      target_port = var.db_port
     }
 
-    type = "ClientIP"
+    type = "ClusterIP"
   }
 }

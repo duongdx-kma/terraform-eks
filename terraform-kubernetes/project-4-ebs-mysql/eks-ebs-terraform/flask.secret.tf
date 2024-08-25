@@ -1,19 +1,19 @@
-resource "kubernetes_secret" "flask_webapp_secret" {
+resource "kubernetes_secret_v1" "flask_webapp_secret" {
   metadata {
-    name = "mysql-secret"
+    name = "flask-webapp-secret"
   }
 
   data = {
     # writer env
-    WRITE_DB_USER     = "ZHVvbmdkeA=="
-    WRITE_DB_PASSWORD = "ZHVvbmdkeDE="
+    WRITE_DB_USER     = var.write_db_user
+    WRITE_DB_PASSWORD = var.write_db_password
 
     # reader env
-    READ_DB_USER     = "ZHVvbmdkeA=="
-    READ_DB_PASSWORD = "ZHVvbmdkeDE="
+    READ_DB_USER     = var.read_db_user
+    READ_DB_PASSWORD = var.read_db_password
 
     # database env
-    DB_NAME = "d2ViYXBwZGI="
-    DB_PORT = "MzMwNgo="
+    DB_NAME = var.db_name
+    DB_PORT = var.db_port
   }
 }
