@@ -1,6 +1,17 @@
 
 # Scaling Storage Size and edit `mysql-statefulset` configuration
 
+### NOTE
+```
+The `--cascade=orphan` flag in the kubectl delete command is used to delete a resource without deleting its dependent resources. In the context of a StatefulSet, this means that the StatefulSet itself will be deleted, but the associated pods and PVCs will remain intact and continue running.
+
+Here’s a breakdown:
+
+Without `--cascade=orphan`: Deleting a StatefulSet would also delete all its pods and PVCs.
+With `--cascade=orphan`: Only the StatefulSet object is deleted, while the pods and PVCs are “orphaned” and continue to run.
+This can be useful when you want to make changes to the StatefulSet configuration without disrupting the running pods. However, for critical applications requiring zero downtime, it’s essential to handle this process carefully to avoid any unintended disruptions.
+```
+
 ### step 0: check configuration in `statefulset`
 ```yaml
 persistentVolumeClaimRetentionPolicy:
