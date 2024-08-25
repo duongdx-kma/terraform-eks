@@ -4,8 +4,8 @@ metadata:
   name: user-management-db-script
 data: 
   mysql_user_management.sql: |-
-    DROP DATABASE IF EXISTS webappdb;
-    CREATE DATABASE webappdb;
+    CREATE DATABASE IF NOT EXISTS webappdb;
+    USE webappdb;
     CREATE TABLE users (
       id INT AUTO_INCREMENT PRIMARY KEY,
       name VARCHAR(255) NOT NULL,

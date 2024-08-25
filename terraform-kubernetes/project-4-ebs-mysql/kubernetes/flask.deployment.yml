@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: flask-webapp
+  name: flask-webapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: flask-webapp
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: flask-webapp
+    spec:
+      initContainers:
+        - name: service-checker
+          image: busybox
+          command:
+          - sh
+          - -c
+          - |
+            until nslookup mysql.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do
+              echo "waiting for mysql to be up"
+              sleep 2
+            done
+
+      containers:
+      # container image
+      - image: duong1200798/python-webapp
+        name: flask-webapp
+
+        # container port
+        ports:
+        - containerPort: 5000
+
+        # environment
+        envFrom:
+        - secretRef:
+            name: flask-webapp-secret
+        - configMapRef:
+            name: flask-webapp-configmap
+
+        env:
+          # read endpoint
+          - name: READ_DB_HOST
+            # name of mysql service
+            value: mysql
+          # write endpoint
+          - name: WRITE_DB_HOST
+            value: mysql-0.mysql
+
+        # container request resource
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
