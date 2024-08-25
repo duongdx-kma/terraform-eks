@@ -140,7 +140,7 @@ terraform apply -auto-approve
 ```t
 # Configure kubeconfig for kubectl
 aws eks --region <region-code> update-kubeconfig --name <cluster_name>
-aws eks --region us-east-1 update-kubeconfig --name hr-dev-eksdemo1
+aws eks --region ap-southeast-1 update-kubeconfig --name study-dev-eks-cluster
 
 # Verify Kubernetes Worker Nodes using kubectl
 kubectl get nodes

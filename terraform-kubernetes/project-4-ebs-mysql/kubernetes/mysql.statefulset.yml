@@ -199,9 +199,16 @@ spec:
   volumeClaimTemplates:
   - metadata:
       name: mysql-data
+      labels:
+        app: mysql
+        app.kubernetes.io/name: mysql
     spec:
       # storageClassName: "mysql-persistent-storage" # if null it will using default storage class
       accessModes: ["ReadWriteOnce"]
       resources:
         requests:
           storage: 500Mi
+
+  persistentVolumeClaimRetentionPolicy:
+    whenScaled: Retain
+    whenDeleted: Retain

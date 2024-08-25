@@ -199,9 +199,16 @@ spec:
   volumeClaimTemplates:
   - metadata:
       name: mysql-data
+      labels:
+        app: mysql
+        app.kubernetes.io/name: mysql
     spec:
       storageClassName: "ebs-gp2-storage-class" # if null it will using default storage class
       accessModes: ["ReadWriteOnce"]
       resources:
         requests:
           storage: 1Gi
+  persistentVolumeClaimRetentionPolicy:
+    whenScaled: Retain
+    whenDeleted: Retain
+

@@ -7,8 +7,11 @@ resource "kubernetes_storage_class_v1" "ebs_gp3_storage_class" {
   }
 
   storage_provisioner = "ebs.csi.aws.com"
-  reclaim_policy      = "Delete"
   volume_binding_mode = "WaitForFirstConsumer"
+
+  # Allow expand the EBS volume
+  allow_volume_expansion = "true" # must set reclaim_policy = Retain then we can expand the volume
+  reclaim_policy      = "Retain"
 
   parameters = {
     type = "gp3"
