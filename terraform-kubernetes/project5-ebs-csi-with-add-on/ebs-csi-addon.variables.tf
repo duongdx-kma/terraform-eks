@@ -26,3 +26,6 @@ variable eks_ebs_csi_service_account_name {
   default     = "ebs-csi-controller-sa"
 }
 
+variable eks_kubernetes_version {
+  description = "Kubernetes Version"
+}

@@ -122,9 +122,3 @@ When deciding between using the EKS add-on for EBS CSI Driver and self-managing 
 
 - **EKS Add-On**: Ideal for teams that prefer a hassle-free, managed solution that integrates tightly with AWS, providing automatic updates and security management. Best for those who do not require extensive customization.
 - **Self-Managed EBS CSI Driver**: Suited for teams needing full control over deployment, customization, or aggressive version management. Best for teams with the expertise and resources to manage the driver manually.
-
-# Config EBS CSI driver with EKS AddOn
-
-## Step-01: Introduction
-- Install EBS CSI Driver using EKS AddOn
-- [Limitations - EKS Addon EBS CSI Driver](https://docs.aws.amazon.com/eks/latest/userguide/managing-ebs-csi.html
