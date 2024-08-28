@@ -15,15 +15,29 @@
 #   tags = local.common_tags
 # }
 
-module "eks_ebs_csi" {
-  source      = "./project-3-ebs-csi"
+# module "eks_ebs_csi" {
+#   source      = "./project-3-ebs-csi"
+#   aws_region  = var.aws_region
+#   module_name = "eks_ebs_csi"
+#   tags        = local.common_tags
+
+#   eks_ebs_csi_namespace                            = "kube-system"
+#   eks_ebs_csi_service_account_name                 = "ebs-csi-controller-sa"
+#   eks_addons_container_registry_endpoint           = var.aws_registry_for_eks_addons[var.aws_region]
+#   aws_iam_openid_connect_provider_arn              = data.terraform_remote_state.eks.outputs.aws_iam_openid_connect_provider_arn
+#   aws_iam_openid_connect_provider_extract_from_arn = data.terraform_remote_state.eks.outputs.aws_iam_openid_connect_provider_extract_from_arn
+# }
+
+module "eks_ebs_csi_addon" {
+  source      = "./project5-ebs-csi-with-add-on"
   aws_region  = var.aws_region
-  module_name = "eks_ebs_csi"
+  module_name = "eks_ebs_csi_addon"
   tags        = local.common_tags
 
+  eks_kubernetes_version                           = data.aws_eks_cluster.cluster.version
+  eks_cluster_name                                 = data.aws_eks_cluster.cluster.name
   eks_ebs_csi_namespace                            = "kube-system"
   eks_ebs_csi_service_account_name                 = "ebs-csi-controller-sa"
-  eks_addons_container_registry_endpoint           = var.aws_registry_for_eks_addons[var.aws_region]
   aws_iam_openid_connect_provider_arn              = data.terraform_remote_state.eks.outputs.aws_iam_openid_connect_provider_arn
   aws_iam_openid_connect_provider_extract_from_arn = data.terraform_remote_state.eks.outputs.aws_iam_openid_connect_provider_extract_from_arn
 }
