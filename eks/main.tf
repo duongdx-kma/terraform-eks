@@ -74,3 +74,16 @@ module "eks" {
 
   tags = local.common_tags
 }
+
+module "eks_user" {
+  source      = "../modules/eks-user-using-iam-user"
+  module_name = "eks-user"
+  aws_region  = var.aws_region
+  tags        = local.common_tags
+
+  # eks variables
+  eks_cluster_id                 = module.eks.cluster_id
+  eks_cluster_endpoint           = module.eks.cluster_endpoint
+  eks_node_group_role_name       = module.eks.eks_node_group_role_arn
+  eks_certificate_authority_data = module.eks.cluster_certificate_authority_data
+}

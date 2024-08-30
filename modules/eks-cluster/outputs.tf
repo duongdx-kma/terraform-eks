@@ -84,3 +84,9 @@ output "node_group_public_version" {
 #   description = "Private Node Group Kubernetes Version"
 #   value       = aws_eks_node_group.eks_node_group_private.version
 # }
+
+# EKS Node Group role arn
+output "eks_node_group_role_arn" {
+  description = "The ARN of eks node group"
+  value       = aws_iam_role.eks_node_group_role.arn
+}
