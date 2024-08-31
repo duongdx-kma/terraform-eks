@@ -1,8 +1,8 @@
 # Create AWS EKS Node Group - PUBLIC
 resource "aws_eks_node_group" "eks_node_group_pubic" {
-  cluster_name    = aws_eks_cluster.eks_cluster.name
+  cluster_name    = var.cluster_name
   node_group_name = "${var.cluster_name}-node-group-public"
-  node_role_arn   = aws_iam_role.eks_node_group_role.arn
+  node_role_arn   = var.node_group_role_arn
   subnet_ids      = var.node_group_vpc_public_subnet_ids
 
   scaling_config {
@@ -33,11 +33,11 @@ resource "aws_eks_node_group" "eks_node_group_pubic" {
 
   # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.
   # Otherwise, EKS will not be able to properly delete EC2 Instances and Elastic Network Interfaces.
-  depends_on = [
-    aws_iam_role_policy_attachment.eks-AmazonEKSWorkerNodePolicy,
-    aws_iam_role_policy_attachment.eks-AmazonEKS_CNI_Policy,
-    aws_iam_role_policy_attachment.eks-AmazonEC2ContainerRegistryReadOnly,
-  ]
+  # depends_on = [
+  #   aws_iam_role_policy_attachment.eks-AmazonEKSWorkerNodePolicy,
+  #   aws_iam_role_policy_attachment.eks-AmazonEKS_CNI_Policy,
+  #   aws_iam_role_policy_attachment.eks-AmazonEC2ContainerRegistryReadOnly,
+  # ]
 
   tags = merge({
     NodeGroupType = "public"

@@ -14,6 +14,8 @@ resource "aws_iam_role" "eks_cluster_role" {
   name               = "${var.cluster_name}-eks-cluster-role"
   description        = "The role for EKS cluster"
   assume_role_policy = data.aws_iam_policy_document.eks_cluster_assume_role.json
+
+  tags = var.tags
 }
 
 # Associate IAM Policy to IAM Role

@@ -15,6 +15,8 @@ resource "aws_iam_role" "eks_node_group_role" {
   name               = "${var.cluster_name}-eks-node-group-role"
   description        = "The role for EKS cluster"
   assume_role_policy = data.aws_iam_policy_document.eks_node_group_assume_role.json
+
+  tags = var.tags
 }
 
 resource "aws_iam_role_policy_attachment" "eks-AmazonEKSWorkerNodePolicy" {

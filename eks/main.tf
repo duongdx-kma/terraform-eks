@@ -51,10 +51,42 @@ module "security-groups" {
 #   tags = local.common_tags
 # }
 
+module "aws_iam" {
+  source       = "../modules/aws-iam"
+  cluster_name = local.eks_cluster_name
+  tags         = local.common_tags
+}
+
 module "eks" {
-  source                            = "../modules/eks-cluster"
+  source               = "../modules/eks-cluster"
+  cluster_version      = "1.30"
+  vpc_subnet_ids       = module.vpc.public_subnets
+  cluster_name         = local.eks_cluster_name
+  eks_cluster_role_arn = module.aws_iam.eks_cluster_iam_role_arn
+  tags                 = local.common_tags
+}
+
+
+module "eks_user" {
+  source      = "../modules/eks-user-using-iam-user"
+  module_name = "eks-user"
+  aws_region  = var.aws_region
+  tags        = local.common_tags
+
+  # eks variables
+  eks_cluster_id                 = module.eks.cluster_id
+  eks_cluster_endpoint           = module.eks.cluster_endpoint
+  eks_node_group_role_name       = module.aws_iam.eks_node_group_role_name
+  eks_certificate_authority_data = module.eks.cluster_certificate_authority_data
+
+  depends_on = [ module.eks, module.aws_iam ]
+}
+
+module "eks_nodegroup" {
+  source                            = "../modules/eks-nodegroup"
   cluster_version                   = "1.30"
   cluster_name                      = local.eks_cluster_name
+  node_group_role_arn               = module.aws_iam.eks_node_group_role_arn
   node_group_vpc_public_subnet_ids  = module.vpc.public_subnets
   node_group_vpc_private_subnet_ids = module.vpc.private_subnets
   vpc_subnet_ids                    = module.vpc.public_subnets
@@ -73,4 +105,19 @@ module "eks" {
   # }
 
   tags = local.common_tags
+
+  depends_on = [ module.eks, module.aws_iam, module.eks_user ]
+}
+
+module "eks_user" {
+  source      = "../modules/eks-user-using-iam-user"
+  module_name = "eks-user"
+  aws_region  = var.aws_region
+  tags        = local.common_tags
+
+  # eks variables
+  eks_cluster_id                 = module.eks.cluster_id
+  eks_cluster_endpoint           = module.eks.cluster_endpoint
+  eks_node_group_role_name       = module.eks.eks_node_group_role_arn
+  eks_certificate_authority_data = module.eks.cluster_certificate_authority_data
 }

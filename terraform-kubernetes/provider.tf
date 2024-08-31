@@ -36,8 +36,8 @@ terraform {
     # DynamoDB for state locking
     # dynamodb_table = "terraform-kubernetes"
   }
-
 }
+
 # Provider Block
 provider "aws" {
   region  = var.aws_region

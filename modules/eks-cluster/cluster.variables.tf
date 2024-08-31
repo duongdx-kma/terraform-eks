@@ -1,3 +1,22 @@
+variable "cluster_name" {
+  type = string
+  description = "The eks cluster name"
+}
+
+variable vpc_subnet_ids {
+  type = list(string)
+  description = "The list of VPC subnet ids"
+}
+
+variable "tags" {
+  type = map(any)
+}
+
+variable "eks_cluster_role_arn" {
+  description = "The IAM role for EKS cluster"
+  type = string
+}
+
 variable "cluster_version" {
   description = "The Desired Kubernetes master version, if we don't define cluster will using K8S latest version"
   type = string

@@ -25,12 +25,12 @@ output "cluster_version" {
 
 output "cluster_iam_role_name" {
   description = "IAM role name of the EKS cluster."
-  value       = module.eks.cluster_iam_role_name
+  value       = module.aws_iam.eks_cluster_iam_role_name
 }
 
 output "cluster_iam_role_arn" {
   description = "IAM role ARN of the EKS cluster."
-  value       = module.eks.cluster_iam_role_arn
+  value       = module.aws_iam.eks_cluster_iam_role_arn
 }
 
 output "cluster_oidc_issuer_url" {
@@ -46,43 +46,43 @@ output "cluster_primary_security_group_id" {
 # EKS Node Group Outputs - Public
 output "node_group_public_id" {
   description = "Public Node Group ID"
-  value       = module.eks.node_group_public_id
+  value       = module.eks_nodegroup.node_group_public_id
 }
 
 output "node_group_public_arn" {
   description = "Public Node Group ARN"
-  value       = module.eks.node_group_public_arn
+  value       = module.eks_nodegroup.node_group_public_arn
 }
 
 output "node_group_public_status" {
   description = "Public Node Group status"
-  value       = module.eks.node_group_public_status
+  value       = module.eks_nodegroup.node_group_public_status
 }
 
 output "node_group_public_version" {
   description = "Public Node Group Kubernetes Version"
-  value       = module.eks.node_group_public_version
+  value       = module.eks_nodegroup.node_group_public_version
 }
 
 # EKS Node Group Outputs - Private
 # output "node_group_private_id" {
 #   description = "Node Group 1 ID"
-#   value       = aws_eks_node_group.eks_node_group_private.id
+#   value       = module.eks_nodegroup.node_group_private_id
 # }
 
 # output "node_group_private_arn" {
 #   description = "Private Node Group ARN"
-#   value       = aws_eks_node_group.eks_node_group_private.arn
+#   value       = module.eks_nodegroup.node_group_private_arn
 # }
 
 # output "node_group_private_status" {
 #   description = "Private Node Group status"
-#   value       = aws_eks_node_group.eks_node_group_private.status
+#   value       = module.eks_nodegroup.node_group_private_status
 # }
 
 # output "node_group_private_version" {
 #   description = "Private Node Group Kubernetes Version"
-#   value       = aws_eks_node_group.eks_node_group_private.version
+#   value       = module.eks_nodegroup.node_group_private_version
 # }
 
 

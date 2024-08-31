@@ -1,3 +1,23 @@
+variable "cluster_name" {
+  type = string
+  description = "The eks cluster name"
+}
+
+variable "cluster_version" {
+  description = "The Desired Kubernetes master version, if we don't define cluster will using K8S latest version"
+  type = string
+  default = null
+}
+
+variable vpc_subnet_ids {
+  type = list(string)
+  description = "The list of VPC subnet ids"
+}
+
+variable "tags" {
+  type = map(any)
+}
+
 variable "public_node_group_scaling_config" {
   description = "The auto scaling configuration"
   type = object({
@@ -65,4 +85,9 @@ variable "node_group_vpc_public_subnet_ids" {
 variable "node_group_vpc_private_subnet_ids" {
   type = list(string)
   description = "The list of VPC Public subnet ids"
+}
+
+variable node_group_role_arn {
+  description = "The node group role arn"
+  type = string
 }
