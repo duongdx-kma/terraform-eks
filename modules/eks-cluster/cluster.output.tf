@@ -14,7 +14,7 @@ output "cluster_id" {
 
 output "cluster_arn" {
   description = "The arn of the EKS cluster"
-  value = aws_eks_cluster.eks_cluster.id
+  value = aws_eks_cluster.eks_cluster.arn
 }
 
 output "cluster_certificate_authority_data" {

@@ -35,7 +35,7 @@ resource "aws_iam_role_policy_attachment" "eks-AmazonEKSVPCResourceController" {
 #   path        = "/"
 #   description = "AmazonEKSClusterPolicy"
 
-#   policy = jsondecode({
+#   policy = jsonencode({
 #     "Version" : "2012-10-17",
 #     "Statement" : [
 #       {

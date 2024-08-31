@@ -67,19 +67,27 @@ module "eks" {
 }
 
 
-module "eks_user" {
-  source      = "../modules/eks-user-using-iam-user"
-  module_name = "eks-user"
+# module "eks_user" {
+#   source                   = "../modules/eks-user-using-iam-user"
+#   module_name              = "eks-user"
+#   aws_region               = var.aws_region
+#   tags                     = local.common_tags
+#   eks_node_group_role_name = module.aws_iam.eks_node_group_role_name
+
+#   depends_on = [module.eks, module.aws_iam]
+# }
+
+module "eks_multiple_user" {
+  source      = "../modules/eks-user-using-iam-role-and-group"
+  module_name = "eks-users"
   aws_region  = var.aws_region
   tags        = local.common_tags
 
-  # eks variables
-  eks_cluster_id                 = module.eks.cluster_id
-  eks_cluster_endpoint           = module.eks.cluster_endpoint
-  eks_node_group_role_name       = module.aws_iam.eks_node_group_role_name
-  eks_certificate_authority_data = module.eks.cluster_certificate_authority_data
+  eks_cluster_name         = module.eks.cluster_id
+  eks_cluster_arn          = module.eks.cluster_arn
+  eks_node_group_role_name = module.aws_iam.eks_node_group_role_name
 
-  depends_on = [ module.eks, module.aws_iam ]
+  depends_on = [module.eks, module.aws_iam]
 }
 
 module "eks_nodegroup" {
@@ -106,5 +114,5 @@ module "eks_nodegroup" {
 
   tags = local.common_tags
 
-  depends_on = [ module.eks, module.aws_iam, module.eks_user ]
+  depends_on = [module.eks, module.aws_iam, module.eks_multiple_user]
 }

@@ -5,7 +5,7 @@ description: Learn how to Create new AWS Basic User to access EKS Cluster Resour
 
 ## Step-01: Introduction
 - Combination of `Section-19` and `Section-20` using Terraform
-- We are going to manage AWS EKS aws-auth configmap using Terraform in this demo. 
+- We are going to manage AWS EKS aws-auth configmap using Terraform in this demo.
 
 ## Step-02: c8-01-iam-admin-user.tf
 ```t
