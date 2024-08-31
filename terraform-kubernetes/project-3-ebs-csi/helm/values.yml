@@ -10,4 +10,4 @@ controller:
     create: true
     name: ebs-csi-controller-sa
     annotations:
-      eks.amazonaws.com/role-arn: arn:aws:iam::<Account-Id>:role/eks_ebs_csi-role
+      eks.amazonaws.com/role-arn: arn:aws:iam::account-id:role/eks_ebs_csi-role
