@@ -1,6 +1,6 @@
 # Resource: AWS IAM User - Basic User (No AWSConsole Access)
 resource "aws_iam_user" "basic_user" {
-  name = "${var.module_name}-eks-developer"
+  name = "${var.module_name}-eks-admin-2"
   path = "/"
   force_destroy = true
   tags = var.tags

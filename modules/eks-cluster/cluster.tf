@@ -1,6 +1,6 @@
 resource "aws_eks_cluster" "eks_cluster" {
   name     = var.cluster_name
-  role_arn = aws_iam_role.eks_cluster_role.arn
+  role_arn = var.eks_cluster_role_arn
 
   /**
   * Terraform document: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_cluster
@@ -33,10 +33,10 @@ resource "aws_eks_cluster" "eks_cluster" {
 
   # Ensure that IAM Role permissions are created before and deleted after EKS Cluster handling.
   # Otherwise, EKS will not be able to properly delete EKS managed EC2 infrastructure such as Security Groups.
-  depends_on = [
-    aws_iam_role_policy_attachment.eks-AmazonEKSClusterPolicy,
-    aws_iam_role_policy_attachment.eks-AmazonEKSVPCResourceController,
-  ]
+  # depends_on = [
+  #   aws_iam_role_policy_attachment.eks-AmazonEKSClusterPolicy,
+  #   aws_iam_role_policy_attachment.eks-AmazonEKSVPCResourceController,
+  # ]
 
   tags = var.tags
 }
