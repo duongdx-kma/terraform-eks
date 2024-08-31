@@ -244,7 +244,6 @@ resource "aws_iam_user_policy" "basic_user_eks_policy" {
     ]
   })
 }
-
 ```
 
 ### Step-04: c7-01-kubernetes-provider.tf

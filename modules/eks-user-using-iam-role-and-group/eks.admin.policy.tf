@@ -20,9 +20,13 @@ resource aws_iam_policy "eks_admin_policy" {
      ]
   })
 
-  tags = {
-    tag-key = "${var.module_name}-eks-admin-policy"
-  }
+  tags = merge(
+    {
+      permission = "All"
+      tag-key = "${var.module_name}-eks-admin-policy"
+    },
+    var.tags
+  )
 }
 
 # IAM role - policy attachment

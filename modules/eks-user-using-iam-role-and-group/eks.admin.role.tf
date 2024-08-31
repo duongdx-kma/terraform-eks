@@ -1,4 +1,4 @@
-# IAM role - trusted relation policy
+# Data IAM role: trusted relation policy
 data "aws_iam_policy_document" "eks_admin_user_assume_role" {
   statement {
     actions = ["sts:AssumeRole"]
@@ -17,11 +17,17 @@ data "aws_iam_policy_document" "eks_admin_user_assume_role" {
   }
 }
 
-// iam role
+# Resource: IAM Role - EKS Admin Access
 resource "aws_iam_role" "eks_admin_user_role" {
   name               = "${var.eks_cluster_name}-eks-admin-user-role"
   description        = "The role for EKS admin user"
   assume_role_policy = data.aws_iam_policy_document.eks_admin_user_assume_role.json
 
-  tags = var.tags
+  tags = merge(
+    {
+      role = "Admin"
+      permission = "All"
+    },
+    var.tags
+  )
 }

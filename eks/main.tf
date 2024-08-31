@@ -66,7 +66,6 @@ module "eks" {
   tags                 = local.common_tags
 }
 
-
 # module "eks_user" {
 #   source                   = "../modules/eks-user-using-iam-user"
 #   module_name              = "eks-user"
@@ -86,6 +85,26 @@ module "eks_multiple_user" {
   eks_cluster_name         = module.eks.cluster_id
   eks_cluster_arn          = module.eks.cluster_arn
   eks_node_group_role_name = module.aws_iam.eks_node_group_role_name
+
+  # config eks user_group and eks user
+  eks_readonly_group_name = "readonly-group" # same with modules/kubernetes-rbac/cluster-role-bindings
+  eks_readonly_user_name  = "readonly-user"  # same with modules/kubernetes-rbac/role-bindings
+
+  depends_on = [module.eks, module.aws_iam]
+}
+
+module "kubernetes_rbac" {
+  source      = "../modules/kubernetes-rbac"
+  module_name = "kubernetes-rbac"
+  aws_region  = var.aws_region
+  tags        = local.common_tags
+
+  eks_cluster_name = module.eks.cluster_id
+
+  # config eks user_group and eks user
+  eks_readonly_group_name = "readonly-group" # same with modules/kubernetes/cluster-role-bindings
+  eks_readonly_user_name  = "readonly-user"  # same with modules/kubernetes/role-bindings
+
 
   depends_on = [module.eks, module.aws_iam]
 }
