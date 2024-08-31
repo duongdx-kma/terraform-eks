@@ -95,3 +95,10 @@ output "aws_iam_openid_connect_provider_extract_from_arn" {
   description = "AWS IAM Open ID Connect Provider extract from ARN"
   value = module.eks.aws_iam_openid_connect_provider_extract_from_arn
 }
+
+
+# EKS admin user role:
+output "eks_admin_user_role_arn" {
+  description = "The ARN role for EKS admin user"
+  value = module.eks_multiple_user.eks_admin_user_role_arn
+}

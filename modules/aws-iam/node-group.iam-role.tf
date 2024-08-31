@@ -40,7 +40,7 @@ resource "aws_iam_role_policy_attachment" "eks-AmazonEC2ContainerRegistryReadOnl
 #   path        = "/"
 #   description = "AmazonEKSWorkerNodePolicy"
 
-#   policy = jsondecode({
+#   policy = jsonencode({
 #     "Version" : "2012-10-17",
 #     "Statement" : [
 #       {

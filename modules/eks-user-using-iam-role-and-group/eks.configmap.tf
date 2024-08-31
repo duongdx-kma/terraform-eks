@@ -1,10 +1,3 @@
-# Get AWS Account ID
-data "aws_caller_identity" "current" {}
-
-output "account_id" {
-  value = data.aws_caller_identity.current.account_id
-}
-
 variable "eks_node_group_role_name" {
   description = "the EKS node group role"
   type        = string
@@ -19,7 +12,13 @@ locals {
       username = "system:node:{{EC2PrivateDNSName}}"
       groups   = ["system:bootstrappers", "system:nodes"]
     },
+    {
+      rolearn  = aws_iam_role.eks_admin_user_role.arn # IAM Role ARN
+      username = "iam-role-as-eks-admin"
+      groups   = ["system:masters"] # kubernetes groups
+    }
   ]
+
   configmap_users = [
     {
       userarn  = "${aws_iam_user.basic_user.arn}"
