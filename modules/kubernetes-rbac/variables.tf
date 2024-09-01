@@ -17,11 +17,6 @@ variable "eks_cluster_name" {
   description = "The EKS cluster name"
 }
 
-variable "eks_cluster_arn" {
-  type        = string
-  description = "The EKS cluster name"
-}
-
 variable eks_readonly_group_name {
   type = string
   description = "The EKS readonly group name (mine group)"

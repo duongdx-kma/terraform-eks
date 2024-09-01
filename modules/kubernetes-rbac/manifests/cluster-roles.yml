@@ -1,0 +1,16 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: eks-readonly-cluster-role
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["nodes", "namespaces", "pods", "events", "services", "configmaps", "serviceaccounts"]
+  verbs: ["get", "list"]
+
+- apiGroups: ["apps"]
+  resources: ["deployments", "daemonsets", "statefulsets", "replicasets"]
+  verbs: ["get", "list"]
+
+- apiGroups: ["batch"]
+  resources: ["jobs"]
+  verbs: ["get", "list"]
