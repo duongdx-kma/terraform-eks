@@ -108,3 +108,10 @@ output "eks_readonly_user_role_arn" {
   description = "The ARN role for EKS readonly user"
   value = module.eks_multiple_user.eks_readonly_user_role_arn
 }
+
+# EKS develop user role:
+output "eks_develop_user_role_arn" {
+  description = "The ARN role for EKS develop user"
+  value = module.eks_multiple_user.eks_develop_user_role_arn
+}
+

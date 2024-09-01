@@ -210,8 +210,17 @@ metadata:
   uid: 6adfe455-d143-4f53-92d9-830938ed939a
 ```
 
-### step-07: check `cluster-role`, `cluster-role-binding`, `role`, `role-binding` and kubernetes resources (Must using `EKS admin`)
+### step-07: check  `role`, `role-binding` and kubernetes resources (Must using `EKS admin`)
+```powershell
+# command:
+k get roles,rolebinding
 
+# result
+NAME                                               CREATED AT
+role.rbac.authorization.k8s.io/eks-readonly-role   2024-09-01T09:29:44Z
+
+NAME                                                                                    ROLE                     AGE
+rolebinding.rbac.authorization.k8s.io/study-dev-eks-cluster-eks-readonly-role-binding   Role/eks-readonly-role   22m
 
 ### Step-08: checking create Kubernetes resource (Using `EKS readonly user`)
 

@@ -38,6 +38,25 @@ resource "aws_iam_group_membership" "eks_readonly_membership" {
 
   group = aws_iam_group.eks_readonly_iam_group.name
 }
+
+
+# Resource: AWS IAM User working as "EKS Develop"
+resource "aws_iam_user" "eks_develop_user" {
+  name = "${var.module_name}-eks-develop-user"
+  path = "/"
+  force_destroy = true
+  tags = var.tags
+}
+
+# Resource: EKS develop IAM  Membership
+resource "aws_iam_group_membership" "eks_develop_membership" {
+  name = "${var.module_name}-eks-develop-group-membership"
+  users = [
+    aws_iam_user.eks_develop_user.name
+  ]
+
+  group = aws_iam_group.eks_develop_iam_group.name
+}
 # --------------------------------
 # End: EKS user using IAM Role and IAM Group
 # --------------------------------
