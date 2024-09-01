@@ -3,15 +3,22 @@ title: Create new AWS Basic User to access EKS Cluster Resources
 description: Learn how to Create new AWS Basic User to access EKS Cluster Resources
 ---
 
+## I. Structure `EKS admin`
+
+![alt text](images/eks-admin.png)
 
 ## II. Hand-on `EKS admin` as `IAM roles` and `IAM group`
 
-### Step-01: Structure
-#### 1. EKS admin
-![alt text](images/eks-admin.png)
+### Step-01: Provision `EKS cluster`
+```powershell
+terraform init
 
-#### 2. EKS Readonly
-![alt text](images/eks-readonly.png)
+terraform validate
+
+terraform plan
+
+terraform apply
+```
 
 ### Step-02: check `IAM groups`
 ```powershell
@@ -140,7 +147,16 @@ aws sts get-caller-identity
 }
 ```
 
-### step-05: check `aws-auth` and kubernetes resources
+### step-05: update `kube-config` file
+```powershell
+# command
+aws eks --region <region-code> update-kubeconfig --name <cluster_name> --profile <AWS-CLI-PROFILE-NAME>
+
+# example
+aws eks --region ap-southeast-1 update-kubeconfig --name study-dev-eks-cluster
+```
+
+### step-06: check `aws-auth` and kubernetes resources
 ```powershell
 # check `aws-auth`
 k get configmap aws-auth -n kube-system -o yaml

@@ -51,17 +51,17 @@ resource "aws_iam_user_policy_attachment" "admin_user" {
 }
 
 # Resource: AWS IAM Basic User (No AWSConsole Access) working as "EKS Readonly"
-resource "aws_iam_user" "read_only_user" {
-  name = "${var.module_name}-read-only-user"
+resource "aws_iam_user" "iam_read_only_user" {
+  name = "${var.module_name}-iam-read-only-user"
   path = "/"
   force_destroy = true
   tags = var.tags
 }
 
 # Resource: AWS IAM User Policy - EKS Readonly Access
-resource "aws_iam_user_policy" "read_only_user_policy" {
-  name = "${var.module_name}-eks-read-only-policy"
-  user = aws_iam_user.read_only_user.name
+resource "aws_iam_user_policy" "iam_read_only_user_policy" {
+  name = "${var.module_name}-iam-read-only-user-policy"
+  user = aws_iam_user.iam_read_only_user.name
 
   # Terraform's "jsonencode" function converts a
   # Terraform expression result to valid JSON syntax.

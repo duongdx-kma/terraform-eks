@@ -61,18 +61,7 @@ resource "aws_iam_policy" "eks_readonly_iam_group_policy" {
         "Sid" : "AssumeEksReadonlyRole",
         "Effect" : "Allow",
         "Action" : [
-          "iam:ListRoles",
-          "ssm:GetParameter",
-          "eks:DescribeNodegroup",
-          "eks:ListNodegroups",
-          "eks:DescribeCluster",
-          "eks:ListClusters",
-          "eks:AccessKubernetesApi",
-          "eks:ListUpdates",
-          "eks:ListFargateProfiles",
-          "eks:ListIdentityProviderConfigs",
-          "eks:ListAddons",
-          "eks:DescribeAddonVersions"
+          "sts:AssumeRole"
         ],
         "Resource" : aws_iam_role.eks_readonly_user_role.arn
       }

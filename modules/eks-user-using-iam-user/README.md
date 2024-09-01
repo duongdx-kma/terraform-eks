@@ -181,7 +181,7 @@ aws configure list
 # To list all your profile names
 aws configure list-profiles
 
-# Configure aws cli eks-user-eks-admin Profile 
+# Configure aws cli eks-user-eks-admin Profile
 aws configure --profile eks-user-eks-admin
 
 # To list all your profile names
@@ -200,7 +200,7 @@ aws eks --region ap-southeast-1 update-kubeconfig --name study-dev-eks-cluster -
 Observation:
 1. It should pass
 
-# Verify kubeconfig 
+# Verify kubeconfig
 cat $HOME/.kube/config
       env:
       - name: AWS_PROFILE

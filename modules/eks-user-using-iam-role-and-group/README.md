@@ -3,15 +3,25 @@ title: Create new AWS Basic User to access EKS Cluster Resources
 description: Learn how to Create new AWS Basic User to access EKS Cluster Resources
 ---
 
+## I. Structure
+### 1. EKS admin
+![alt text](images/eks-admin.png)
+
+### 2. EKS Readonly
+![alt text](images/eks-readonly.png)
 
 ## II. Hand-on `EKS admin` as `IAM roles` and `IAM group`
 
-### Step-01: Structure
-#### 1. EKS admin
-![alt text](images/eks-admin.png)
+### Step-01: Provision `EKS cluster`
+```powershell
+terraform init
 
-#### 2. EKS Readonly
-![alt text](images/eks-readonly.png)
+terraform validate
+
+terraform plan
+
+terraform apply
+```
 
 ### Step-02: check `IAM groups`
 ```powershell

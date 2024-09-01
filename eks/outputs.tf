@@ -102,3 +102,9 @@ output "eks_admin_user_role_arn" {
   description = "The ARN role for EKS admin user"
   value = module.eks_multiple_user.eks_admin_user_role_arn
 }
+
+# EKS readonly user role:
+output "eks_readonly_user_role_arn" {
+  description = "The ARN role for EKS readonly user"
+  value = module.eks_multiple_user.eks_readonly_user_role_arn
+}
