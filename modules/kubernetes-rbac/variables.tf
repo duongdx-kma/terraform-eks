@@ -22,7 +22,12 @@ variable eks_readonly_group_name {
   description = "The EKS readonly group name (mine group)"
 }
 
-variable eks_readonly_user_name {
+variable eks_develop_group_name {
   type = string
-  description = "The EKS readonly user name (mine user)"
+  description = "The EKS develop group name (mine group)"
+}
+
+variable develop_namespace {
+  type = string
+  description = "develop_namespace"
 }

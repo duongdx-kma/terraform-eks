@@ -25,7 +25,14 @@ locals {
     {
       rolearn  = aws_iam_role.eks_readonly_user_role.arn # IAM Role ARN
       username = "iam-role-as-eks-readonly"
-      groups   = [ var.eks_readonly_group_name ] # kubernetes groups
+      groups   = [var.eks_readonly_group_name] # kubernetes groups
+    },
+
+    # "IAM EKS Develop access role" as "EKS Develop GROUP"
+    {
+      rolearn  = aws_iam_role.eks_develop_user_role.arn # IAM Role ARN
+      username = "iam-role-as-eks-develop"
+      groups   = [var.eks_develop_group_name] # kubernetes groups
     }
   ]
 
@@ -48,9 +55,7 @@ locals {
     {
       userarn  = "${aws_iam_user.iam_read_only_user.arn}"
       username = "iam-user-as-eks-readonly"
-      groups   = [
-        var.eks_readonly_user_name
-      ]
+      groups   = [var.eks_readonly_group_name]
     },
   ]
 }

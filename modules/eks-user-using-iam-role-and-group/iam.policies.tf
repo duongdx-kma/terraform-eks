@@ -79,3 +79,46 @@ resource "aws_iam_policy_attachment" "eks_readonly_group_policy_attachment" {
   policy_arn = aws_iam_policy.eks_readonly_iam_group_policy.arn
   groups     = [aws_iam_group.eks_readonly_iam_group.name]
 }
+
+
+# Resource: AWS IAM EKS Develop Policy
+resource "aws_iam_policy" "eks_develop_iam_group_policy" {
+  name        = "${var.eks_cluster_name}-eks-develop-iam-group-policy"
+  description = "The policy allow roles, users and group assume role ${aws_iam_role.eks_develop_user_role.name}"
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Sid" : "VisualEditor0",
+        "Effect" : "Allow",
+        "Action" : [
+          "sts:GetSessionToken",
+          "sts:DecodeAuthorizationMessage",
+          "sts:GetAccessKeyInfo",
+          "sts:GetCallerIdentity",
+          "sts:GetServiceBearerToken"
+        ],
+        "Resource" : "*"
+      },
+      {
+        "Sid" : "AssumeEksDevelopRole",
+        "Effect" : "Allow",
+        "Action" : [
+          "sts:AssumeRole"
+        ],
+        "Resource" : aws_iam_role.eks_develop_user_role.arn
+      }
+    ]
+  })
+
+  tags = {
+    tag-key = "${var.module_name}-assume-eks-readonly-policy"
+  }
+}
+
+# IAM EKS develop groups - policy attachment
+resource "aws_iam_policy_attachment" "eks_develop_group_policy_attachment" {
+  name       = "${var.eks_cluster_name}-eks-develop-iam-group-policy-attachment"
+  policy_arn = aws_iam_policy.eks_develop_iam_group_policy.arn
+  groups     = [aws_iam_group.eks_develop_iam_group.name]
+}

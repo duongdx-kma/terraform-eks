@@ -88,9 +88,9 @@ module "eks_multiple_user" {
 
   # config eks user_group and eks user
   eks_readonly_group_name = "readonly-group" # same with modules/kubernetes-rbac/cluster-role-bindings
-  eks_readonly_user_name  = "readonly-user"  # same with modules/kubernetes-rbac/role-bindings
-
-  depends_on = [module.eks, module.aws_iam]
+  eks_develop_group_name  = "develop-group"  # same with modules/kubernetes-rbac/role-bindings
+  develop_namespace       = "develop"        # same with modules/kubernetes-rbac/namespace
+  depends_on              = [module.eks, module.aws_iam]
 }
 
 module "kubernetes_rbac" {
@@ -100,10 +100,10 @@ module "kubernetes_rbac" {
   tags        = local.common_tags
 
   eks_cluster_name = module.eks.cluster_id
-
   # config eks user_group and eks user
   eks_readonly_group_name = "readonly-group" # same with modules/kubernetes/cluster-role-bindings
-  eks_readonly_user_name  = "readonly-user"  # same with modules/kubernetes/role-bindings
+  eks_develop_group_name  = "develop-group"  # same with modules/kubernetes/role-bindings
+  develop_namespace       = "develop"        # same with modules/kubernetes-rbac/namespace
 
 
   depends_on = [module.eks, module.aws_iam]
