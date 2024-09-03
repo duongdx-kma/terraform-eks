@@ -1,5 +1,5 @@
-variable cluster_name {
-  type = string
+variable "cluster_name" {
+  type        = string
   description = "The EKS cluster name"
-  default = "eks-cluster"
+  default     = "eks-cluster"
 }

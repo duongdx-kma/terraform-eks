@@ -1,6 +1,5 @@
 # Install AWS Load Balancer Controller using HELM
-
-# Resource: Helm Release 
+# Resource: Helm Release
 resource "helm_release" "load_balancer_controller" {
   depends_on = [aws_iam_role.lbc_iam_role]            
   name       = "aws-load-balancer-controller"
@@ -12,7 +11,7 @@ resource "helm_release" "load_balancer_controller" {
 
   set {
     name = "image.repository"
-    value = var.eks_addons_container_registry_endpoint # Changes based on Region - This is for us-east-1 Additional Reference: https://docs.aws.amazon.com/eks/latest/userguide/add-ons-images.html
+    value = "${var.eks_addons_container_registry_endpoint}/amazon/aws-load-balancer-controller" # Changes based on Region - This is for us-east-1 Additional Reference: https://docs.aws.amazon.com/eks/latest/userguide/add-ons-images.html
   }       
 
   set {

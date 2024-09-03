@@ -1,33 +1,21 @@
 # EKS Load Balancer Controller
 
-### step-01: Add eks helm repository
+### step-01: Provision resources
 ```powershell
-helm repo add eks https://aws.github.io/eks-charts
-# If using IAM Roles for service account install as follows -  NOTE: you need to specify both of the chart values `serviceAccount.create=false` and `serviceAccount.name=aws-load-balancer-controller`
-# helm install aws-load-balancer-controller eks/aws-load-balancer-controller --set clusterName=my-cluster -n kube-system --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller
-# If not using IAM Roles for service account
-# helm install aws-load-balancer-controller eks/aws-load-balancer-controller --set clusterName=my-cluster -n kube-system
+# Change Directory
+# Terraform Initialize
+terraform init
+
+# Terraform Validate
+terraform validate
+
+# Terraform Plan
+terraform plan
+
+# Terraform Apply
+terraform apply -auto-approve
 ```
-
-### step-02: check chart in repo:
-```powershell
-# command:
-helm search repo eks
-
-# Result:
-# NAME                                    	CHART VERSION	APP VERSION                       	DESCRIPTION
-# ...
-# eks/aws-load-balancer-controller        	1.8.2        	v2.8.2                            	AWS Load Balancer Controller Helm chart for Kub...
-#...
-```
-
-### step-03: Install and launching `EKS Load Balancer Controller` release
-```powershell
-# command:
-helm install aws-load-balancer-controller eks/aws-load-balancer-controller --namespace kube-system --values values.yml
-```
-
-### step-04: Verify `Load Balancer Controller` resources
+### step-02: Verify `Load Balancer Controller` resources
 ```powershell
 # command:
 kubectl -n kube-system get deployment
@@ -122,7 +110,7 @@ Observation:
 3. Both values should be same which traffic coming to "aws-load-balancer-webhook-service" on port 443 will be sent to port 9443 on "aws-load-balancer-controller" deployment related pods. 
 ```
 
-### step-05: Verify `Load Balancer Controller` resources
+### step-03: Verify `Load Balancer Controller` resources
 ```powershell
 # List Pods
 kubectl get pods -n kube-system
@@ -136,7 +124,7 @@ kubectl -n kube-system logs -f <POD-NAME>
 kubectl -n kube-system logs -f aws-load-balancer-controller-86b598cbd6-vqqsk
 ```
 
-### step-06: Verify AWS Load Balancer Controller k8s `Service Account` - Internals
+### step-04: Verify AWS Load Balancer Controller k8s `Service Account` - Internals
 ```powershell
 # command:
 k get sa -n kube-system

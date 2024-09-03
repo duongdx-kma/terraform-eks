@@ -5,7 +5,7 @@ resource "aws_iam_policy" "eks_lbc_iam_policy" {
 
   # Terraform's "jsonencode" function converts a
   # Terraform expression result to valid JSON syntax.
-  policy = data.http.lbc_iam_policy_content.response_body
+  policy = data.http.lbc_iam_policy.response_body
 }
 
 output "lbc_iam_policy_arn" {
