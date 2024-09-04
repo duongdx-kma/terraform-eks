@@ -18,7 +18,7 @@
 # module "eks_ebs_csi" {
 #   source      = "./project-3-ebs-csi"
 #   aws_region  = var.aws_region
-#   module_name = "eks_ebs_csi"
+#   module_name = "eks-ebs-csi"
 #   tags        = local.common_tags
 
 #   eks_ebs_csi_namespace                            = "kube-system"
@@ -31,7 +31,7 @@
 module "eks_ebs_csi_addon" {
   source      = "./project5-ebs-csi-with-add-on"
   aws_region  = var.aws_region
-  module_name = "eks_ebs_csi_addon"
+  module_name = "eks-ebs-csi-addon"
   tags        = local.common_tags
 
   eks_kubernetes_version                           = data.aws_eks_cluster.cluster.version

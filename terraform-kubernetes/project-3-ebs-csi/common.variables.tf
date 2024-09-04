@@ -1,5 +1,3 @@
-
-
 variable "module_name" {
   type        = string
   description = "The module name"

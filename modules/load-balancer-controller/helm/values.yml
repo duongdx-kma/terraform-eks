@@ -1,0 +1,24 @@
+image:
+  repository: 602401143452.dkr.ecr.ap-southeast-1.amazonaws.com
+  tag: ""
+  pullPolicy: IfNotPresent
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations:
+      eks.amazonaws.com/role-arn: arn:aws:iam::account-id:role/aws-load-balancer-controller-role
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: aws-load-balancer-controller-sa
+  automountServiceAccountToken: true
+
+# The name of the Kubernetes cluster. A non-empty value is required
+clusterName: eks-clusterName
+
+# The AWS region for the kubernetes cluster. Set to use KIAM or kube2iam for example.
+region: ap-southeast-1
+
+# The VPC ID for the Kubernetes cluster. Set this manually when your pods are unable to use the metadata service to determine this automatically
+vpcId: abcdef-12345

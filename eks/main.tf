@@ -135,3 +135,20 @@ module "eks_nodegroup" {
 
   depends_on = [module.eks, module.aws_iam, module.eks_multiple_user]
 }
+
+module "lbc" {
+  source      = "../modules/load-balancer-controller"
+  module_name = "aws-lbc"
+  aws_region  = var.aws_region
+
+  # eks lbc and ingress config
+  eks_vpc_id                                       = module.vpc.vpc_id
+  eks_cluster_id                                   = module.eks.cluster_id
+  eks_addons_container_registry_endpoint           = var.aws_registry_for_eks_addons[var.aws_region]
+  aws_iam_openid_connect_provider_arn              = module.eks.aws_iam_openid_connect_provider_arn
+  aws_iam_openid_connect_provider_extract_from_arn = module.eks.aws_iam_openid_connect_provider_extract_from_arn
+  ingress_class_name                               = "aws-load-balancer-ingress-class"
+  is_default_ingress_class                         = true
+
+  tags = local.common_tags
+}
