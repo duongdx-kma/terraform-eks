@@ -119,7 +119,7 @@ kubectl -n kube-system get deployment aws-load-balancer-controller -o yaml
 Observation:
 1. Verify "spec.selector" label in "aws-load-balancer-webhook-service"
 2. Compare it with "aws-load-balancer-controller" Deployment "spec.selector.matchLabels"
-3. Both values should be same which traffic coming to "aws-load-balancer-webhook-service" on port 443 will be sent to port 9443 on "aws-load-balancer-controller" deployment related pods. 
+3. Both values should be same which traffic coming to "aws-load-balancer-webhook-service" on port 443 will be sent to port 9443 on "aws-load-balancer-controller" deployment related pods.
 ```
 
 ### step-05: Verify `Load Balancer Controller` resources
@@ -165,3 +165,91 @@ Mountable secrets:   <none>
 Tokens:              <none>
 Events:              <none>
 ```
+
+### Step-07: Verify AWS Load Balancer Controller k8s Service Account - Internals
+```t
+# List Service Account and its secret
+kubectl -n kube-system get sa aws-load-balancer-controller
+kubectl -n kube-system get sa aws-load-balancer-controller -o yaml
+kubectl -n kube-system get secret <GET_FROM_PREVIOUS_COMMAND - secrets.name> -o yaml
+kubectl -n kube-system get secret aws-load-balancer-controller-token-5w8th 
+kubectl -n kube-system get secret aws-load-balancer-controller-token-5w8th -o yaml
+## Decoce ca.crt using below two websites
+https://www.base64decode.org/
+https://www.sslchecker.com/certdecoder
+
+## Decode token using below two websites
+https://www.base64decode.org/
+https://jwt.io/
+Observation:
+1. Review decoded JWT Token
+
+# List Deployment in YAML format
+kubectl -n kube-system get deploy aws-load-balancer-controller -o yaml
+Observation:
+1. Verify "spec.template.spec.serviceAccount" and "spec.template.spec.serviceAccountName" in "aws-load-balancer-controller" Deployment
+2. We should find the Service Account Name as "aws-load-balancer-controller"
+
+# List Pods in YAML format
+kubectl -n kube-system get pods
+kubectl -n kube-system get pod <AWS-Load-Balancer-Controller-POD-NAME> -o yaml
+kubectl -n kube-system get pod aws-load-balancer-controller-65b4f64d6c-h2vh4 -o yaml
+Observation:
+1. Verify "spec.serviceAccount" and "spec.serviceAccountName"
+2. We should find the Service Account Name as "aws-load-balancer-controller"
+3. Verify "spec.volumes". You should find something as below, which is a temporary credentials to access AWS Services
+CHECK-1: Verify "spec.volumes.name = aws-iam-token"
+  - name: aws-iam-token
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          audience: sts.amazonaws.com
+          expirationSeconds: 86400
+          path: token
+CHECK-2: Verify Volume Mounts
+    volumeMounts:
+    - mountPath: /var/run/secrets/eks.amazonaws.com/serviceaccount
+      name: aws-iam-token
+      readOnly: true          
+CHECK-3: Verify ENVs whose path name is "token"
+    - name: AWS_WEB_IDENTITY_TOKEN_FILE
+      value: /var/run/secrets/eks.amazonaws.com/serviceaccount/token          
+```
+
+### Step-08: Verify TLS Certs for AWS Load Balancer Controller - Internals
+```t
+# List aws-load-balancer-tls secret 
+kubectl -n kube-system get secret aws-load-balancer-tls -o yaml
+
+# Verify the ca.crt and tls.crt in below websites
+https://www.base64decode.org/
+https://www.sslchecker.com/certdecoder
+
+# Make a note of Common Name and SAN from above 
+Common Name: aws-load-balancer-controller
+SAN: aws-load-balancer-webhook-service.kube-system, aws-load-balancer-webhook-service.kube-system.svc
+
+# List Pods in YAML format
+kubectl -n kube-system get pods
+kubectl -n kube-system get pod <AWS-Load-Balancer-Controller-POD-NAME> -o yaml
+kubectl -n kube-system get pod aws-load-balancer-controller-65b4f64d6c-h2vh4 -o yaml
+Observation:
+1. Verify how the secret is mounted in AWS Load Balancer Controller Pod
+CHECK-2: Verify Volume Mounts
+    volumeMounts:
+    - mountPath: /tmp/k8s-webhook-server/serving-certs
+      name: cert
+      readOnly: true
+CHECK-3: Verify Volumes
+  volumes:
+  - name: cert
+    secret:
+      defaultMode: 420
+      secretName: aws-load-balancer-tls
+```
+
+
+## References
+- [AWS Load Balancer Controller Install](https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html)
+- [ECR Repository per region](https://docs.aws.amazon.com/eks/latest/userguide/add-ons-images.html)

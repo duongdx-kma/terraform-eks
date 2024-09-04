@@ -14,10 +14,8 @@ data "aws_iam_policy_document" "lbc_assume_role" {
 
     condition {
       test     = "StringEquals"
-      variable = "${var.aws_iam_openid_connect_provider_extract_from_arn}:sub"
-      values   = [
-        "system:serviceaccount:${var.eks_lbc_namespace}:${var.eks_lbc_service_account_name}"
-      ]
+      variable = "${var.aws_iam_openid_connect_provider_extract_from_arn}:aud"
+      values   = ["sts.amazonaws.com"]
     }
 
     condition {

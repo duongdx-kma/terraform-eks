@@ -25,8 +25,13 @@ resource "helm_release" "load_balancer_controller" {
   }
 
   set {
+    name  = "serviceAccount.automountServiceAccountToken"
+    value = "true"
+  }
+
+  set {
     name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-    value = "${aws_iam_role.lbc_iam_role.arn}"
+    value = aws_iam_role.lbc_iam_role.arn
   }
 
   set {
@@ -43,5 +48,10 @@ resource "helm_release" "load_balancer_controller" {
     name  = "clusterName"
     value = var.eks_cluster_id
   }    
-    
+
+  # RBAC settings
+  set {
+    name  = "rbac.create"
+    value = "true"
+  }
 }
