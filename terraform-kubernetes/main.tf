@@ -1,3 +1,16 @@
+locals {
+  owners      = var.owner
+  environment = var.environment
+
+  name = "${var.business_division}-${var.environment}"
+  common_tags = {
+    owner       = local.owners
+    environment = local.environment
+    GithubRepo  = "terraform-eks"
+    GithubUser  = "duongdx-kma"
+  }
+}
+
 # module "project-1" {
 #   source = "./project-1-webserver"
 # }
@@ -29,7 +42,7 @@
 # }
 
 module "eks_ebs_csi_addon" {
-  source      = "./project5-ebs-csi-with-add-on"
+  source      = "./project-5-ebs-csi-with-add-on"
   aws_region  = var.aws_region
   module_name = "eks-ebs-csi-addon"
   tags        = local.common_tags
@@ -61,6 +74,15 @@ module "mysql_stateful_app" {
   db_port                       = 3306
   app_port                      = 5000
   app_env                       = var.environment
+  flask_enable_alb              = false
+  flask_enable_node_port        = false
   flask_webapp_service_port     = 80
   flask_webapp_public_node_port = 32100
+}
+
+module "ingress_for_application" {
+  source               = "./project-6-basic-ingress"
+  ingress_class_name   = "aws-load-balancer-ingress-class"
+  default_service_port = module.mysql_stateful_app.flask_webapp_service[0].service_port
+  default_service_name = module.mysql_stateful_app.flask_webapp_service[0].service_name
 }

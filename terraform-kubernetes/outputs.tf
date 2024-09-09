@@ -35,10 +35,14 @@ output "ebs_csi_iam_role_arn" {
 # EKS AddOn - EBS CSI Driver Outputs
 output "ebs_csi_driver_addon_arn" {
   description = "EKS AddOn - EBS CSI Driver ARN"
-  value = module.eks_ebs_csi_addon.ebs_csi_driver_addon_arn
+  value       = module.eks_ebs_csi_addon.ebs_csi_driver_addon_arn
 }
 
 output "ebs_csi_driver_addon_id" {
   description = "EKS AddOn - EBS CSI Driver ID"
-  value = module.eks_ebs_csi_addon.ebs_csi_driver_addon_id
+  value       = module.eks_ebs_csi_addon.ebs_csi_driver_addon_id
+}
+
+output "flask_webapp_service" {
+  value = module.mysql_stateful_app.flask_webapp_service
 }
