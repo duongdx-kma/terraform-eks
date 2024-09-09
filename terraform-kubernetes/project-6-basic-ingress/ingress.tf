@@ -17,7 +17,7 @@ resource "kubernetes_ingress_v1" "ingress" {
   metadata {
     name = "ingress-basics"
     labels = {
-      "app" = flask-webapp
+      "app" = "flask-webapp"
     }
     annotations = {
       # Load Balancer Name
