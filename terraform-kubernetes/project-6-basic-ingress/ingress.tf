@@ -16,6 +16,9 @@ variable "default_service_port" {
 resource "kubernetes_ingress_v1" "ingress" {
   metadata {
     name = "ingress-basics"
+    labels = {
+      "app" = flask-webapp
+    }
     annotations = {
       # Load Balancer Name
       "alb.ingress.kubernetes.io/load-balancer-name" = "ingress-basics"
