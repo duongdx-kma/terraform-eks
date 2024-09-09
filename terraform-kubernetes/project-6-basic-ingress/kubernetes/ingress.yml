@@ -29,6 +29,5 @@ spec:
       port:
         number: 80 # port of service
       
-
 # 1. If  "spec.ingressClassName: aws-load-balancer-ingress-class" not specified, will reference default ingress class on this kubernetes cluster
 # 2. Default Ingress class is nothing but for which ingress class we have the annotation `ingressclass.kubernetes.io/is-default-class: "true"`
