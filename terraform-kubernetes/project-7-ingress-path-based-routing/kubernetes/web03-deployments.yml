@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: webserver-03
+  name: webserver-03
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: webserver-03
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: webserver-03
+    spec:
+      containers:
+      - image: stacksimplify/kubenginx:1.0.0
+        name: webserver-03
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "200m"
+
+status: {}
+
+---
+apiVersion: v1
+kind: Service 
+metadata:
+  name: webserver-03-service
+  labels:
+    app: webserver-03-service
+  annotations:
+  #Important Note:  Need to add health check path annotations in service level if we are planning to use multiple targets in a load balancer
+    alb.ingress.kubernetes.io/healthcheck-path: /index.html
+spec:
+  type: ClusterIP
+  selector:
+    app: webserver-03
+  ports:
+    - name: http
+      port: 80 # Service Port
+      targetPort: 80 # Container Port
+# This will create a Classic Load Balancer
+# AWS will be retiring the EC2-Classic network on August 15, 2022.
