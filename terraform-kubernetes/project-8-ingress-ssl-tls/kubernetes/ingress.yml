@@ -23,7 +23,7 @@ metadata:
     ## SSL Settings
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}, {"HTTP":80}]'
     alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-southeast-1:<account-id>:certificate/36f702e2-ec14-45df-b76b-a660a1b4f589
-    #alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS-1-1-2017-01 #Optional (Picks default if not used)   
+    #alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS-1-1-2017-01 #Optional (Picks default if not used)
     # SSL Redirect Setting
     alb.ingress.kubernetes.io/ssl-redirect: '443'
 spec:

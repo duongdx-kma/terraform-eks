@@ -87,7 +87,16 @@ module "eks_ebs_csi_addon" {
 #   default_service_name = module.mysql_stateful_app.flask_webapp_service[0].service_name
 # }
 
-module "ingress_context_path_based_routing" {
-  source               = "./project-7-ingress-path-based-routing"
-  ingress_class_name   = "aws-load-balancer-ingress-class"
+# module "ingress_context_path_based_routing" {
+#   source               = "./project-7-ingress-path-based-routing"
+#   ingress_class_name   = "aws-load-balancer-ingress-class"
+# }
+
+module "ingress_ssl_tls" {
+  source             = "./project-8-ingress-ssl-tls"
+  ingress_class_name = "aws-load-balancer-ingress-class"
+  route53_domain     = "duongdx.com"
+  route53_sub_domain = "web" # web.duongdx.com
+
+  tags = local.common_tags
 }
