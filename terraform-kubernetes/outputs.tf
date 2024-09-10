@@ -43,6 +43,6 @@ output "ebs_csi_driver_addon_id" {
   value       = module.eks_ebs_csi_addon.ebs_csi_driver_addon_id
 }
 
-output "flask_webapp_service" {
-  value = module.mysql_stateful_app.flask_webapp_service
-}
+# output "flask_webapp_service" {
+#   value = module.mysql_stateful_app.flask_webapp_service
+# }

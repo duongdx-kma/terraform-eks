@@ -55,34 +55,39 @@ module "eks_ebs_csi_addon" {
   aws_iam_openid_connect_provider_extract_from_arn = data.terraform_remote_state.eks.outputs.aws_iam_openid_connect_provider_extract_from_arn
 }
 
-module "mysql_stateful_app" {
-  source = "./project-4-ebs-mysql/eks-ebs-terraform"
-  # Mysql variable
-  mysql_database      = "webappdb"
-  mysql_root_password = "duongdx1"
-  mysql_password      = "duongdx1"
-  mysql_user          = "duongdx"
+# module "mysql_stateful_app" {
+#   source = "./project-4-ebs-mysql/eks-ebs-terraform"
+#   # Mysql variable
+#   mysql_database      = "webappdb"
+#   mysql_root_password = "duongdx1"
+#   mysql_password      = "duongdx1"
+#   mysql_user          = "duongdx"
 
-  # Python variable to Mysql
-  write_db_user     = "duongdx"
-  write_db_password = "duongdx1"
-  read_db_user      = "duongdx"
-  read_db_password  = "duongdx1"
+#   # Python variable to Mysql
+#   write_db_user     = "duongdx"
+#   write_db_password = "duongdx1"
+#   read_db_user      = "duongdx"
+#   read_db_password  = "duongdx1"
 
-  # Python variable
-  db_name                       = "webappdb"
-  db_port                       = 3306
-  app_port                      = 5000
-  app_env                       = var.environment
-  flask_enable_alb              = false
-  flask_enable_node_port        = false
-  flask_webapp_service_port     = 80
-  flask_webapp_public_node_port = 32100
-}
+#   # Python variable
+#   db_name                       = "webappdb"
+#   db_port                       = 3306
+#   app_port                      = 5000
+#   app_env                       = var.environment
+#   flask_enable_alb              = false
+#   flask_enable_node_port        = false
+#   flask_webapp_service_port     = 80
+#   flask_webapp_public_node_port = 32100
+# }
 
-module "ingress_for_application" {
-  source               = "./project-6-basic-ingress"
+# module "ingress_for_application" {
+#   source               = "./project-6-basic-ingress"
+#   ingress_class_name   = "aws-load-balancer-ingress-class"
+#   default_service_port = module.mysql_stateful_app.flask_webapp_service[0].service_port
+#   default_service_name = module.mysql_stateful_app.flask_webapp_service[0].service_name
+# }
+
+module "ingress_context_path_based_routing" {
+  source               = "./project-7-ingress-path-based-routing"
   ingress_class_name   = "aws-load-balancer-ingress-class"
-  default_service_port = module.mysql_stateful_app.flask_webapp_service[0].service_port
-  default_service_name = module.mysql_stateful_app.flask_webapp_service[0].service_name
 }
