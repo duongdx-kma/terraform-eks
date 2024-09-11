@@ -92,11 +92,43 @@ module "eks_ebs_csi_addon" {
 #   ingress_class_name   = "aws-load-balancer-ingress-class"
 # }
 
-module "ingress_ssl_tls" {
-  source             = "./project-8-ingress-ssl-tls"
-  ingress_class_name = "aws-load-balancer-ingress-class"
+# module "ingress_ssl_tls" {
+#   source             = "./project-8-ingress-ssl-tls"
+#   ingress_class_name = "aws-load-balancer-ingress-class"
+#   route53_domain     = "duongdx.com"
+#   route53_sub_domain = "web" # web.duongdx.com
+
+#   tags = local.common_tags
+# }
+
+# Start: Project 9
+# module "external_dns_and_ingress_ssl" {
+#   source             = "./project-9-external-dns-and-ingress-ssl"
+#   ingress_class_name = "aws-load-balancer-ingress-class"
+#   route53_domain     = "duongdx.com"
+#   ingress_domains = "web.duongdx.com, webapp.duongdx.com"
+
+#   tags = local.common_tags
+# }
+
+# Outputs: external_dns_and_ingress_ssl
+# output "acm_certificate_id" {
+#   value = module.ingress_ssl_tls_and_external_dns.acm_certificate_id
+# }
+
+# output "acm_certificate_arn" {
+#   value = module.ingress_ssl_tls_and_external_dns.acm_certificate_arn
+# }
+
+# output "acm_certificate_status" {
+#   value = module.ingress_ssl_tls_and_external_dns.acm_certificate_status
+# }
+# End: Project 9
+
+
+module "external_dns_and_k8s_service" {
+  source             = "./project-10-external-dns-and-k8s-services-ssl"
   route53_domain     = "duongdx.com"
-  route53_sub_domain = "web" # web.duongdx.com
 
   tags = local.common_tags
 }

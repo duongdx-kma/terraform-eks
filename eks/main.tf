@@ -152,3 +152,15 @@ module "lbc" {
 
   tags = local.common_tags
 }
+
+module "external_dns" {
+  source      = "../modules/eks-external-dns"
+  module_name = "eks-external-dns"
+  aws_region  = var.aws_region
+
+  eks_cluster_id                                   = module.eks.cluster_id
+  aws_iam_openid_connect_provider_arn              = module.eks.aws_iam_openid_connect_provider_arn
+  aws_iam_openid_connect_provider_extract_from_arn = module.eks.aws_iam_openid_connect_provider_extract_from_arn
+
+  tags = local.common_tags
+}
